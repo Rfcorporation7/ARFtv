@@ -7,6 +7,8 @@
     <!-- Tambahkan library dash.js -->
     <script src="https://cdn.jsdelivr.net/npm/dashjs@latest/dist/dash.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- Tambahkan Font Awesome untuk icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #ffffff;
@@ -29,7 +31,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-color); display: flex; justify-content: center; color: var(--text-main); transition: background-color 0.3s, color 0.3s; }
+        body { background-color: var(--bg-color); display: flex; justify-content: center; color: var(--text-main); transition: background-color 0.3s, color 0.3s; overflow: hidden; }
         .app-container { width: 100%; max-width: 450px; background-color: var(--primary); height: 100vh; display: flex; flex-direction: column; overflow: hidden; transition: background-color 0.3s; }
         
         /* Video Section */
@@ -39,6 +41,7 @@
             aspect-ratio: 16 / 9; 
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
         
         #main-video { 
@@ -46,6 +49,7 @@
             height: 100%; 
             object-fit: contain;
             background-color: #000;
+            display: block;
         }
         
         /* Hide video controls completely */
@@ -58,38 +62,6 @@
         }
         
         #main-video::-webkit-media-controls-panel {
-            display: none !important;
-        }
-        
-        #main-video::-webkit-media-controls-play-button {
-            display: none !important;
-        }
-        
-        #main-video::-webkit-media-controls-timeline {
-            display: none !important;
-        }
-        
-        #main-video::-webkit-media-controls-current-time-display {
-            display: none !important;
-        }
-        
-        #main-video::-webkit-media-controls-time-remaining-display {
-            display: none !important;
-        }
-        
-        #main-video::-webkit-media-controls-timeline-container {
-            display: none !important;
-        }
-        
-        #main-video::-webkit-media-controls-volume-slider {
-            display: none !important;
-        }
-        
-        #main-video::-webkit-media-controls-mute-button {
-            display: none !important;
-        }
-        
-        #main-video::-webkit-media-controls-fullscreen-button {
             display: none !important;
         }
         
@@ -112,6 +84,7 @@
             color: white;
             z-index: 10;
             transition: opacity 0.5s ease;
+            opacity: 1;
         }
         
         .channel-overlay.hidden {
@@ -195,7 +168,7 @@
             display: none;
         }
 
-        /* Header - MODIFIED: Hilangkan tombol fullscreen dari header */
+        /* Header */
         .header-bar { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); transition: border-color 0.3s; }
         .logo { font-size: 20px; font-weight: 800; color: var(--text-main); }
         .logo span { color: var(--accent); }
@@ -452,35 +425,7 @@
             display: none;
         }
         
-        /* Fullscreen styles */
-        .fullscreen-mode .app-container {
-            max-width: 100%;
-            height: 100vh;
-        }
-        
-        .fullscreen-mode .video-section {
-            height: 100vh;
-            aspect-ratio: auto;
-        }
-        
-        .fullscreen-mode #main-video,
-        .fullscreen-mode #youtube-frame {
-            height: 100vh;
-            object-fit: contain;
-        }
-        
-        .fullscreen-mode .header-bar,
-        .fullscreen-mode .channel-list,
-        .fullscreen-mode .footer {
-            display: none;
-        }
-        
-        /* Volume Control Styles - DISEMBUNYIKAN */
-        .volume-control {
-            display: none !important;
-        }
-        
-        /* ========== STYLE BARU: Streaming Tidak Tersedia Message ========== */
+        /* Streaming Tidak Tersedia Message */
         .stream-unavailable {
             position: absolute;
             top: 0;
@@ -545,139 +490,38 @@
             transform: translateY(-2px);
         }
         
-        /* ========== STYLE BARU: Tombol Fullscreen di Bawah ========== */
+        /* Bottom Controls tanpa tombol fullscreen */
         .bottom-controls {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            padding: 15px 20px;
+            padding: 20px;
             display: flex;
             justify-content: flex-end;
             align-items: center;
             z-index: 11;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+        
+        .bottom-controls.hidden {
             opacity: 0;
-            transition: opacity 0.3s ease;
             pointer-events: none;
         }
         
-        .bottom-controls.visible {
-            opacity: 1;
-            pointer-events: all;
+        /* Auto-hide animation */
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
         
-        .bottom-fullscreen-btn {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .bottom-fullscreen-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: scale(1.1);
-        }
-        
-        .bottom-fullscreen-btn:active {
-            transform: scale(0.95);
-        }
-        
-        /* Tampilkan tombol fullscreen saat overlay channel muncul */
-        .channel-overlay:not(.hidden) ~ .bottom-controls {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        /* Tombol exit fullscreen di overlay */
-        .exit-fullscreen-btn {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 11;
-            font-size: 18px;
+        /* Auto-hide controls */
+        .channel-overlay.auto-hide,
+        .bottom-controls.auto-hide {
             opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .channel-overlay:hover .exit-fullscreen-btn {
-            opacity: 1;
-        }
-        
-        /* Fullscreen mode adjustments */
-        .fullscreen-mode .bottom-controls {
-            padding-bottom: 30px;
-        }
-        
-        /* Hilangkan tombol fullscreen dari header */
-        .fullscreen-btn {
-            display: none !important;
-        }
-        
-        /* Rotasi landscape warning */
-        .landscape-warning {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 9999;
-            color: white;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .landscape-warning-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            animation: rotate 2s ease-in-out infinite;
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(90deg); }
-            50% { transform: rotate(90deg); }
-            75% { transform: rotate(90deg); }
-            100% { transform: rotate(0deg); }
-        }
-        
-        .landscape-warning h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #4dabf7;
-        }
-        
-        .landscape-warning p {
-            font-size: 16px;
-            color: #ddd;
-            max-width: 300px;
-            line-height: 1.5;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -734,22 +578,15 @@
     <!-- Overlay untuk klik luar settings -->
     <div class="settings-overlay" id="settingsOverlay"></div>
     
-    <!-- Landscape Warning -->
-    <div class="landscape-warning" id="landscapeWarning">
-        <div class="landscape-warning-icon">📱</div>
-        <h3>Putar Perangkat ke Mode Landscape</h3>
-        <p>Untuk pengalaman menonton yang lebih baik, putar perangkat Anda ke mode landscape (horizontal).</p>
-    </div>
-
     <!-- Hidden audio untuk trigger autoplay -->
     <audio id="autoplay-trigger" muted autoplay loop></audio>
     
-    <div class="video-section">
+    <div class="video-section" id="videoSection">
         <div class="loading-indicator" id="loadingIndicator">
             <div class="spinner"></div>
         </div>
         
-        <!-- Streaming Tidak Tersedia Message - BARU: Tampilan Lanskap -->
+        <!-- Streaming Tidak Tersedia Message -->
         <div class="stream-unavailable" id="streamUnavailable">
             <div class="stream-unavailable-icon">📡</div>
             <h3>LIVE STREAMING BELUM TERSEDIA</h3>
@@ -772,17 +609,14 @@
                 </div>
             </div>
             <div class="app-name-overlay">ARF<span>tv</span></div>
-            <button class="exit-fullscreen-btn" id="exitFullscreenBtn" title="Keluar dari Fullscreen">⤢</button>
         </div>
         
-        <!-- Bottom Controls dengan tombol fullscreen - BARU -->
+        <!-- Bottom Controls (kosong karena tombol fullscreen dihapus) -->
         <div class="bottom-controls" id="bottomControls">
-            <button class="bottom-fullscreen-btn" id="bottomFullscreenBtn" title="Fullscreen">
-                ⤢
-            </button>
+            <!-- Tombol fullscreen telah dihapus -->
         </div>
         
-        <!-- Video element TANPA muted -->
+        <!-- Video element -->
         <video id="main-video" playsinline autoplay></video>
         <iframe id="youtube-frame" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -795,15 +629,19 @@
         <div class="logo">ARF<span>tv</span></div>
         <div class="header-controls">
             <div style="font-size: 11px; color: var(--text-sub); margin-right: 10px;">TV Indonesia</div>
-            <!-- Tombol settings saja, tombol fullscreen dihapus -->
-            <button class="settings-btn" id="settingsBtn" title="Pengaturan">⚙️</button>
+            <!-- Tombol settings saja -->
+            <button class="settings-btn" id="settingsBtn" title="Pengaturan">
+                <i class="fas fa-cog"></i>
+            </button>
         </div>
     </div>
 
     <div class="channel-list" id="list-container"></div>
 
     <div class="footer">
-        <button class="btn btn-saweria" id="support-btn">☕ Dukung Server</button>
+        <button class="btn btn-saweria" id="support-btn">
+            <i class="fas fa-coffee"></i> Dukung Server
+        </button>
     </div>
 </div>
 
@@ -811,21 +649,21 @@
     // Link Channel TV Indonesia dengan 2 alternatif sumber dan logo
     const channels = [
         { 
-            name: "Liga 1 BRI", 
-            desc: "Bali United Vs Arema fc", 
-            m3u8: "https://cxyznt2-cf.didjhfyu8yg.sbs/auth=3867770b8058ce1b2f4bd0140a92e9e1d169584b0d6f5e9151593eb191c34d7b4bc97f36f8ad970660c9f87ad5d3140a1468bcc035b617f9bb77d5f5c14757af9b331a51cd99b325247a81a8b8231eebc578ce2e2046db6758c6b03f710b5b632ec1fac73cd89d7e58cedd63ba92c573d29658435ee314a9279aa2d87122ef9ef437bfedb59e19d0a7465df5df9f38068530d84aea8706f764d6dc4b4bf42ded&cid=mnPISzuLcrn6SIG1F-3cW26010 4&_v=2&_r=1DIWaF&_vis=d605ec31d8338d9f6fa2b97f04f16f2355af650c6961caab8b3a7c5cd952804d&_vvs=38959a16396d947c39ff45e99fa0765eb783513dcbb5b5250ad2544cc920c8e7/app/c394829.m3u8", 
-            youtube: "2Xl6kgdgw4E",
-            color: "#ffffff",
-            logo: "https://i.ibb.co.com/RWNQZ5v/20260104-194715-0000.png"
-        }, 
-        { 
             name: "EPL", 
             desc: "Leeds Vs Manchester United", 
             m3u8: "https://cxyznt1-cf.didjhfyu8yg.sbs/auth=e47efe0af9fcccf966bcc10642f5ae9985169947bf259afe223e254142bd8981958a247a0304777d61a8134d96d50d61386eb447937459d2fe395b5bd901cca44b1824614c1750f163b53b2d41683fd613d1495f3eab1a874558d28bb4b0655adfd679a11b3e6c8e879b749b7805f91c69a657bec66065f5c30da2e04787610612a2ff1f69dc6ea509ee066d522c48ba2e34be14131ee24f294700737d22361c297c3a41bd2e5a3d62c7ea9d5ba79dfcce3ed6606f8b5fab7c6720e006b1e90ead42829e72b801e1715435042d7426f87d7ddd93d9c85d0ba7e4b1e64c8c80f9c88c0be83d0646000a11c467a1067b5c59c88c9d8914bea8ba99c0a5acbe489b3c22d081eea0e1a57e270dc6065e634b22289749aae9bff5123e0d4cc125d2b5e35461229ab4c032cfaaba766c1e75bed87d535fec7bc5811e5eab11b3493294&cid=mnPISzuLcrn6SIG1F-3cW260104&_v=2&_r=BLbNC_&_vis=9305b5d3ab028d0211e0521a9de37181b311b9559b796c525ad169b075383847&_vvs=99aa3e7ed0cb44e1610de764df45a3aea55910f98190200052916ab5f018c5c7/transcode/c395215_480p.m3u8", 
             youtube: "FvxkiZgyBHo",
             color: "#ffffff",
             logo: "https://i.ibb.co/n8grzttD/Polish-20260103-234200981.png"
-        },
+        },      
+        { 
+            name: "Makkah", 
+            desc: "Saudi Arabia", 
+            m3u8: "https://cxyznt1-cf.didjhfyu8yg.sbs/auth=e47efe0af9fcccf966bcc10642f5ae9985169947bf259afe223e254142bd8981958a247a0304777d61a8134d96d50d61386eb447937459d2fe395b5bd901cca44b1824614c1750f163b53b2d41683fd613d1495f3eab1a874558d28bb4b0655adfd679a11b3e6c8e879b749b7805f91c69a657bec66065f5c30da2e04787610612a2ff1f69dc6ea509ee066d522c48ba2e34be14131ee24f294700737d22361c297c3a41bd2e5a3d62c7ea9d5ba79dfcce3ed6606f8b5fab7c6720e006b1e90ead42829e72b801e1715435042d7426f87d7ddd93d9c85d0ba7e4b1e64c8c80f9c88c0be83d0646000a11c467a1067b5c59c88c9d8914bea8ba99c0a5acbe489b3c22d081eea0e1a57e270dc6065e634b22289749aae9bff5123e0d4cc125d2b5e35461229ab4c032cfaaba766c1e75bed87d535fec7bc5811e5eab11b3493294&cid=mnPISzuLcrn6SIG1F-3cW260104&_v=2&_r=BLbNC_&_vis=9305b5d3ab028d0211e0521a9de37181b311b9559b796c525ad169b075383847&_vvs=99aa3e7ed0cb44e1610de764df45a3aea55910f98190200052916ab5f018c5c7/transcode/c395215_480p.m3u8", 
+            youtube: "2Xl6kgdgw4E",
+            color: "#ffffff",
+            logo: "https://i.ibb.co.com/1tLjSxLY/Desain-tanpa-judul-20260104-060350-0000.png"
+        },      
         { 
             name: "RCTI", 
             desc: "MNC Group", 
@@ -938,14 +776,7 @@
             color: "#ffffff",
             logo: "https://i.ibb.co/4ktSrNL/7-20260104-010416-0006.png"
         },
-        { 
-            name: "EPL", 
-            desc: "Leeds Vs Manchester United", 
-            m3u8: "https://cxyznt1-cf.didjhfyu8yg.sbs/auth=e47efe0af9fcccf966bcc10642f5ae9985169947bf259afe223e254142bd8981958a247a0304777d61a8134d96d50d61386eb447937459d2fe395b5bd901cca44b1824614c1750f163b53b2d41683fd613d1495f3eab1a874558d28bb4b0655adfd679a11b3e6c8e879b749b7805f91c69a657bec66065f5c30da2e04787610612a2ff1f69dc6ea509ee066d522c48ba2e34be14131ee24f294700737d22361c297c3a41bd2e5a3d62c7ea9d5ba79dfcce3ed6606f8b5fab7c6720e006b1e90ead42829e72b801e1715435042d7426f87d7ddd93d9c85d0ba7e4b1e64c8c80f9c88c0be83d0646000a11c467a1067b5c59c88c9d8914bea8ba99c0a5acbe489b3c22d081eea0e1a57e270dc6065e634b22289749aae9bff5123e0d4cc125d2b5e35461229ab4c032cfaaba766c1e75bed87d535fec7bc5811e5eab11b3493294&cid=mnPISzuLcrn6SIG1F-3cW260104&_v=2&_r=BLbNC_&_vis=9305b5d3ab028d0211e0521a9de37181b311b9559b796c525ad169b075383847&_vvs=99aa3e7ed0cb44e1610de764df45a3aea55910f98190200052916ab5f018c5c7/transcode/c395215_480p.m3u8", 
-            youtube: "FvxkiZgyBHo",
-            color: "#ffffff",
-            logo: "https://i.ibb.co/n8grzttD/Polish-20260103-234200981.png"
-        },
+
         { 
             name: "LA LIGA", 
             desc: "Espanyol Vs Barcelona", 
@@ -1001,7 +832,6 @@
     const supportBtn = document.getElementById('support-btn');
     const autoplayTrigger = document.getElementById('autoplay-trigger');
     const settingsBtn = document.getElementById('settingsBtn');
-    const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
     const settingsMenu = document.getElementById('settingsMenu');
     const closeSettings = document.getElementById('closeSettings');
     const settingsOverlay = document.getElementById('settingsOverlay');
@@ -1015,119 +845,54 @@
     const streamUnavailable = document.getElementById('streamUnavailable');
     const tryOtherChannelBtn = document.getElementById('tryOtherChannel');
     const bottomControls = document.getElementById('bottomControls');
-    const bottomFullscreenBtn = document.getElementById('bottomFullscreenBtn');
-    const landscapeWarning = document.getElementById('landscapeWarning');
+    const videoSection = document.getElementById('videoSection');
+    const appContainer = document.querySelector('.app-container');
     
     let hls = null;
     let dashPlayer = null;
     let currentSourceType = 'm3u8';
     let currentChannel = null;
     let currentQuality = 'auto';
-    let overlayTimeout = null;
     let isSwitchingChannel = false;
     let retryCount = 0;
     const MAX_RETRY = 5;
     let autoRestartInterval = null;
     let bufferMonitorInterval = null;
     let networkRetryTimer = null;
-    let isFullscreen = false;
-    let screenOrientationLock = null;
-    
-    // ========== FUNGSI BARU: Tombol Fullscreen di Bawah ==========
-    // Fungsi untuk menampilkan tombol fullscreen di bawah
-    function showBottomControls() {
-        bottomControls.classList.add('visible');
+    let autoHideTimer = null;
+    let controlsVisible = true;
+
+    // ========== FUNGSI AUTO-HIDE CONTROLS ==========
+    function showControls() {
+        console.log("Showing controls");
+        channelOverlay.classList.remove('hidden');
+        bottomControls.classList.remove('hidden');
+        controlsVisible = true;
         
-        // Clear timeout sebelumnya
-        if (overlayTimeout) {
-            clearTimeout(overlayTimeout);
+        // Clear timer sebelumnya
+        if (autoHideTimer) {
+            clearTimeout(autoHideTimer);
         }
         
-        // Set timeout untuk menyembunyikan tombol setelah 3 detik
-        overlayTimeout = setTimeout(() => {
-            bottomControls.classList.remove('visible');
+        // Set timer untuk auto-hide setelah 3 detik
+        autoHideTimer = setTimeout(() => {
+            console.log("Auto-hiding controls");
+            hideControls();
         }, 3000);
     }
     
-    // Fungsi untuk menyembunyikan tombol fullscreen di bawah
-    function hideBottomControls() {
-        bottomControls.classList.remove('visible');
+    function hideControls() {
+        console.log("Hiding controls");
+        channelOverlay.classList.add('hidden');
+        bottomControls.classList.add('hidden');
+        controlsVisible = false;
     }
     
-    // ========== FUNGSI BARU: Streaming Tidak Tersedia ==========
-    // Fungsi untuk menampilkan pesan streaming tidak tersedia
-    function showStreamUnavailable() {
-        console.log("Menampilkan pesan streaming tidak tersedia");
-        streamUnavailable.style.display = 'flex';
-        loadingIndicator.style.display = 'none';
-        
-        // Sembunyikan video dan youtube jika ada
-        video.style.display = 'none';
-        youtubeFrame.style.display = 'none';
-        
-        // Stop HLS/DASH player jika ada
-        if (hls) {
-            hls.destroy();
-            hls = null;
-        }
-        if (dashPlayer) {
-            dashPlayer.destroy();
-            dashPlayer = null;
-        }
-    }
-    
-    // Fungsi untuk menyembunyikan pesan streaming tidak tersedia
-    function hideStreamUnavailable() {
-        streamUnavailable.style.display = 'none';
-    }
-    
-    // ========== FUNGSI BARU: Rotasi Landscape ==========
-    // Fungsi untuk menampilkan peringatan rotasi landscape
-    function showLandscapeWarning() {
-        if (isFullscreen) {
-            landscapeWarning.style.display = 'flex';
-        }
-    }
-    
-    // Fungsi untuk menyembunyikan peringatan rotasi landscape
-    function hideLandscapeWarning() {
-        landscapeWarning.style.display = 'none';
-    }
-    
-    // Fungsi untuk memutar ke mode landscape
-    async function lockToLandscape() {
-        if (isFullscreen && screen.orientation && screen.orientation.lock) {
-            try {
-                await screen.orientation.lock('landscape');
-                console.log("Screen locked to landscape");
-                hideLandscapeWarning();
-            } catch (error) {
-                console.log("Failed to lock screen orientation:", error);
-                showLandscapeWarning();
-            }
-        }
-    }
-    
-    // Fungsi untuk membuka kunci rotasi
-    async function unlockOrientation() {
-        if (screen.orientation && screen.orientation.unlock) {
-            try {
-                await screen.orientation.unlock();
-                console.log("Screen orientation unlocked");
-            } catch (error) {
-                console.log("Failed to unlock screen orientation:", error);
-            }
-        }
-    }
-    
-    // Cek orientasi layar
-    function checkOrientation() {
-        const isLandscape = window.matchMedia("(orientation: landscape)").matches;
-        
-        if (isFullscreen && !isLandscape) {
-            showLandscapeWarning();
+    function toggleControls() {
+        if (controlsVisible) {
+            hideControls();
         } else {
-            hideLandscapeWarning();
+            showControls();
         }
     }
 
@@ -1152,7 +917,7 @@
         localStorage.setItem('videoQuality', quality);
     }
 
-    // Fungsi untuk memutar YouTube - DIPERBAIKI: Jangan tampilkan pesan error saat YouTube berhasil
+    // Fungsi untuk memutar YouTube
     function playYouTube(videoId) {
         if (!videoId) {
             console.log("No YouTube video ID available");
@@ -1175,13 +940,11 @@
         youtubeFrame.style.display = 'block';
         video.style.display = 'none';
         
-        // Update format badge
         formatBadge.textContent = "YouTube";
         formatBadge.style.display = 'block';
         
-        // Sembunyikan loading indicator
         loadingIndicator.style.display = 'none';
-        hideStreamUnavailable(); // PASTIKAN pesan tidak tersedia disembunyikan
+        hideStreamUnavailable();
         
         return true;
     }
@@ -1201,15 +964,14 @@
         }
     }
 
-    // Fungsi untuk memutar stream DASH - DIPERBAIKI: Jangan panggil showStreamUnavailable di event handler
+    // Fungsi untuk memutar stream DASH
     function playDashStream(url) {
         if (!dashjs.supportsMediaSource()) {
             console.log("DASH not supported in this browser");
-            showStreamUnavailable(); // Hanya tampilkan error jika tidak support
+            showStreamUnavailable();
             return false;
         }
         
-        // Destroy player sebelumnya jika ada
         if (dashPlayer) {
             dashPlayer.destroy();
             dashPlayer = null;
@@ -1218,7 +980,6 @@
         try {
             dashPlayer = dashjs.MediaPlayer().create();
             
-            // Setup konfigurasi DASH yang lebih robust
             dashPlayer.updateSettings({
                 streaming: {
                     delay: {
@@ -1249,14 +1010,13 @@
                 }
             });
             
-            // Apply quality settings
             if (currentQuality === 'low') {
                 dashPlayer.updateSettings({
                     streaming: {
                         abr: {
                             maxBitrate: {
-                                video: 700000, // 700 kbps
-                                audio: 96000   // 96 kbps
+                                video: 700000,
+                                audio: 96000
                             }
                         }
                     }
@@ -1266,59 +1026,43 @@
                     streaming: {
                         abr: {
                             maxBitrate: {
-                                video: 2000000, // 2 Mbps
-                                audio: 128000    // 128 kbps
+                                video: 2000000,
+                                audio: 128000
                             }
                         }
                     }
                 });
             }
             
-            // Initialize player
             dashPlayer.initialize(video, url, true);
             
-            // Event listeners untuk DASH player - DIPERBAIKI: Hanya tampilkan error jika benar-benar error
             dashPlayer.on(dashjs.MediaPlayer.events.PLAYBACK_PLAYING, () => {
                 console.log("DASH playback started");
                 isSwitchingChannel = false;
                 loadingIndicator.style.display = 'none';
-                hideStreamUnavailable(); // Sembunyikan pesan tidak tersedia
-                retryCount = 0; // Reset retry count on successful play
+                hideStreamUnavailable();
+                retryCount = 0;
+                
+                // Mulai timer auto-hide setelah video mulai
+                showControls();
             });
             
             dashPlayer.on(dashjs.MediaPlayer.events.ERROR, (e) => {
                 console.log("DASH error:", e);
                 if (!isSwitchingChannel) {
-                    // Tampilkan pesan streaming tidak tersedia hanya jika bukan karena switching channel
-                    showStreamUnavailable();
-                }
-            });
-            
-            dashPlayer.on(dashjs.MediaPlayer.events.PLAYBACK_STALLED, () => {
-                console.log("DASH playback stalled");
-                if (!isSwitchingChannel) {
-                    setTimeout(() => {
-                        if (video.paused || video.ended) {
-                            console.log("Attempting to recover from stall");
-                            video.play().catch(e => {
-                                console.log("Stall recovery failed:", e);
-                                // Tampilkan pesan streaming tidak tersedia hanya jika recovery gagal
-                                showStreamUnavailable();
-                            });
-                        }
-                    }, 2000);
+                    handleStreamError(currentChannel, currentSourceType);
                 }
             });
             
             return true;
         } catch (error) {
             console.log("DASH player error:", error);
-            showStreamUnavailable(); // Tampilkan error jika terjadi exception
+            showStreamUnavailable();
             return false;
         }
     }
 
-    // Fungsi untuk memutar stream HLS - DIPERBAIKI: Jangan panggil showStreamUnavailable di event handler
+    // Fungsi untuk memutar stream HLS
     function playHlsStream(url) {
         if (Hls.isSupported()) {
             if (hls) {
@@ -1329,7 +1073,7 @@
             hls = new Hls({
                 enableWorker: true,
                 lowLatencyMode: true,
-                backBufferLength: 90,
+                backBufferLength: 30,
                 autoStartLoad: true,
                 startPosition: -1,
                 debug: false,
@@ -1357,12 +1101,10 @@
                 video.play().catch(e => {
                     console.log("HLS initial play error:", e);
                     if (!isSwitchingChannel) {
-                        // Tampilkan pesan streaming tidak tersedia hanya jika play gagal
-                        showStreamUnavailable();
+                        handleStreamError(currentChannel, currentSourceType);
                     }
                 });
                 
-                // Apply quality settings
                 if (currentQuality === 'low' && hls.levels && hls.levels.length > 0) {
                     let lowestBitrate = Infinity;
                     let lowestLevel = 0;
@@ -1379,8 +1121,11 @@
                 
                 isSwitchingChannel = false;
                 loadingIndicator.style.display = 'none';
-                hideStreamUnavailable(); // Sembunyikan pesan tidak tersedia
-                retryCount = 0; // Reset retry count on successful play
+                hideStreamUnavailable();
+                retryCount = 0;
+                
+                // Mulai timer auto-hide setelah video mulai
+                showControls();
             });
             
             hls.on(Hls.Events.ERROR, (event, data) => {
@@ -1399,43 +1144,36 @@
                         default:
                             console.log("Fatal error, cannot recover");
                             if (!isSwitchingChannel) {
-                                // Hanya tampilkan error jika fatal dan bukan karena switching
-                                showStreamUnavailable();
+                                handleStreamError(currentChannel, currentSourceType);
                             }
                             break;
                     }
                 }
             });
             
-            hls.on(Hls.Events.LEVEL_LOADED, () => {
-                // Reset retry count when a new level is successfully loaded
-                retryCount = 0;
-            });
-            
             return true;
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // Untuk Safari (native HLS)
             video.src = url;
             video.load();
             
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(e => {
-                    console.log("Safari play error:", e);
-                    if (!isSwitchingChannel) {
-                        // Tampilkan error hanya jika play gagal
-                        showStreamUnavailable();
-                    }
-                });
-            }
+            video.play().catch(e => {
+                console.log("Safari play error:", e);
+                if (!isSwitchingChannel) {
+                    handleStreamError(currentChannel, currentSourceType);
+                }
+            });
+            
             isSwitchingChannel = false;
             loadingIndicator.style.display = 'none';
-            hideStreamUnavailable(); // Sembunyikan pesan tidak tersedia
+            hideStreamUnavailable();
             retryCount = 0;
+            
+            // Mulai timer auto-hide setelah video mulai
+            showControls();
             return true;
         }
         
-        showStreamUnavailable(); // Tampilkan error jika HLS tidak support
+        showStreamUnavailable();
         return false;
     }
 
@@ -1449,7 +1187,6 @@
         img.src = channel.logo;
         img.alt = channel.name;
         img.onerror = function() {
-            // Jika gambar gagal load, gunakan teks sebagai fallback
             this.style.display = 'none';
             const text = document.createElement('div');
             text.className = 'logo-text';
@@ -1470,7 +1207,6 @@
                 }).catch(console.log);
             }
             
-            // Set volume ke 100% setelah interaksi pertama
             if (video.muted) {
                 video.muted = false;
                 video.volume = 1;
@@ -1481,7 +1217,6 @@
         
         document.addEventListener('click', clickHandler);
         
-        // Auto trigger pada load
         if (autoplayTrigger) {
             autoplayTrigger.play().catch(() => {
                 console.log("Will unlock on first click");
@@ -1489,80 +1224,45 @@
         }
     }
 
-    // Fungsi untuk menampilkan overlay channel - MODIFIED
+    // Fungsi untuk menampilkan overlay channel
     function showChannelOverlay(channel) {
         currentChannelName.textContent = channel.name;
         
-        // Clear logo sebelumnya
         currentChannelLogo.innerHTML = '';
         
-        // Tambahkan logo baru
         const logoContainer = createLogoElement(channel, true);
         currentChannelLogo.appendChild(logoContainer.firstChild);
         
-        // Tampilkan overlay channel di atas
-        channelOverlay.classList.remove('hidden');
-        
-        // Tampilkan tombol fullscreen di bawah
-        showBottomControls();
-        
-        // Clear timeout sebelumnya
-        if (overlayTimeout) {
-            clearTimeout(overlayTimeout);
-        }
-        
-        // Set timeout untuk menyembunyikan overlay setelah 3 detik
-        overlayTimeout = setTimeout(() => {
-            channelOverlay.classList.add('hidden');
-            hideBottomControls();
-        }, 3000);
+        showControls();
     }
 
-    // Fungsi untuk restart video jika berhenti (ditingkatkan)
+    // Fungsi untuk restart video jika berhenti
     function restartVideoIfStopped() {
         if (!currentChannel || isSwitchingChannel) return;
         
-        // JANGAN cek untuk YouTube - biarkan YouTube menangani sendiri
         if (currentSourceType === 'youtube') return;
         
-        // Cek jika video dalam keadaan paused atau ended
         if ((video.paused && !video.ended) || video.ended) {
             console.log("Video stopped, attempting to restart...");
             
-            // Cek buffer state
             if (video.buffered.length > 0) {
                 const bufferedEnd = video.buffered.end(video.buffered.length - 1);
                 const currentTime = video.currentTime;
                 
-                // Jika ada buffer yang cukup, coba play
                 if (bufferedEnd - currentTime > 1) {
                     video.play().catch(e => {
                         console.log("Restart failed:", e);
-                        // Jika gagal, coba source alternatif
                         if (retryCount < 2) {
                             showStreamUnavailable();
                         }
                     });
                 } else {
-                    // Buffer kosong, perlu reload stream
                     console.log("Buffer empty, reloading stream...");
                     showStreamUnavailable();
                 }
             } else {
-                // Tidak ada buffer sama sekali
                 console.log("No buffer available, reloading stream...");
                 showStreamUnavailable();
-            }
-        }
-        
-        // Cek network state untuk HLS/DASH
-        if (hls && hls.networkDetails) {
-            const timeSinceLastFragment = Date.now() - hls.networkDetails.lastFragmentRequestTime;
-            if (timeSinceLastFragment > 15000) { // 15 detik tanpa fragment baru
-                console.log("No new fragments for 15 seconds, checking stream...");
-                if (!video.paused && video.readyState < 3) {
-                    hls.startLoad();
-                }
             }
         }
     }
@@ -1576,11 +1276,9 @@
             const currentTime = video.currentTime;
             const bufferAhead = bufferedEnd - currentTime;
             
-            // Jika buffer kurang dari 2 detik, coba optimasi
             if (bufferAhead < 2 && bufferAhead > 0) {
                 console.log(`Low buffer: ${bufferAhead.toFixed(1)}s ahead`);
                 
-                // Untuk HLS, coba turunkan kualitas sementara
                 if (hls && hls.levels && hls.levels.length > 1 && currentQuality === 'auto') {
                     const currentLevel = hls.currentLevel;
                     if (currentLevel > 0) {
@@ -1592,7 +1290,7 @@
         }
     }
 
-    // Fungsi untuk handle error streaming (ditingkatkan) - MODIFIED
+    // Fungsi untuk handle error streaming
     function handleStreamError(channel, sourceType) {
         if (isSwitchingChannel) return;
         
@@ -1600,12 +1298,10 @@
         console.log(`Stream error. Retry ${retryCount}/${MAX_RETRY}`);
         
         if (retryCount <= MAX_RETRY) {
-            // Clear any existing retry timer
             if (networkRetryTimer) {
                 clearTimeout(networkRetryTimer);
             }
             
-            // Delay dengan exponential backoff
             const delay = Math.min(1000 * Math.pow(2, retryCount - 1), 10000);
             console.log(`Retrying in ${delay}ms...`);
             
@@ -1622,14 +1318,36 @@
         }
     }
 
-    // Fungsi untuk memutar stream (DIUBAH untuk lebih robust)
+    // ========== STREAMING TIDAK TERSEDIA ==========
+    function showStreamUnavailable() {
+        console.log("Menampilkan pesan streaming tidak tersedia");
+        streamUnavailable.style.display = 'flex';
+        loadingIndicator.style.display = 'none';
+        
+        video.style.display = 'none';
+        youtubeFrame.style.display = 'none';
+        
+        if (hls) {
+            hls.destroy();
+            hls = null;
+        }
+        if (dashPlayer) {
+            dashPlayer.destroy();
+            dashPlayer = null;
+        }
+    }
+    
+    function hideStreamUnavailable() {
+        streamUnavailable.style.display = 'none';
+    }
+
+    // Fungsi untuk memutar stream
     function playStream(channel, sourceType = 'm3u8') {
         if (isSwitchingChannel) return;
         
         isSwitchingChannel = true;
         retryCount = 0;
         
-        // Clear any existing retry timer
         if (networkRetryTimer) {
             clearTimeout(networkRetryTimer);
             networkRetryTimer = null;
@@ -1638,14 +1356,11 @@
         currentChannel = channel;
         currentSourceType = sourceType;
         
-        // Tampilkan loading indicator
         loadingIndicator.style.display = 'block';
-        hideStreamUnavailable(); // Sembunyikan pesan tidak tersedia saat mulai memutar
+        hideStreamUnavailable();
         
-        // Tampilkan overlay channel dan tombol fullscreen
         showChannelOverlay(channel);
         
-        // Set volume ke 100%
         video.volume = 1;
         video.muted = false;
         
@@ -1657,11 +1372,9 @@
                 return;
             }
             
-            // Sembunyikan video, tampilkan YouTube
             video.style.display = 'none';
             video.pause();
             
-            // Stop HLS/DASH player jika aktif
             if (hls) {
                 hls.destroy();
                 hls = null;
@@ -1674,15 +1387,13 @@
             const success = playYouTube(channel.youtube);
             if (success) {
                 isSwitchingChannel = false;
-                // PASTIKAN loading indicator disembunyikan
                 loadingIndicator.style.display = 'none';
-                hideStreamUnavailable(); // PASTIKAN pesan tidak tersedia disembunyikan
+                hideStreamUnavailable();
             } else {
                 showStreamUnavailable();
                 isSwitchingChannel = false;
             }
         } else {
-            // Sembunyikan YouTube, tampilkan video
             youtubeFrame.src = '';
             youtubeFrame.style.display = 'none';
             video.style.display = 'block';
@@ -1692,7 +1403,6 @@
             
             console.log(`Playing ${channel.name} - Type: ${streamType} - Quality: ${currentQuality}`);
             
-            // Update format badge
             if (streamType === 'hls') {
                 formatBadge.textContent = "HLS";
                 formatBadge.style.display = 'block';
@@ -1703,7 +1413,6 @@
                 formatBadge.style.display = 'none';
             }
             
-            // Stop semua player sebelumnya
             if (hls) {
                 hls.destroy();
                 hls = null;
@@ -1713,30 +1422,30 @@
                 dashPlayer = null;
             }
             
-            // Mainkan berdasarkan tipe stream
             let success = false;
             if (streamType === 'hls') {
                 success = playHlsStream(streamUrl);
             } else if (streamType === 'dash') {
                 success = playDashStream(streamUrl);
             } else {
-                // Untuk tipe stream langsung (direct)
                 video.src = streamUrl;
                 video.load();
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(e => {
-                        console.log("Direct play error:", e);
-                        showStreamUnavailable();
-                        isSwitchingChannel = false;
-                    });
-                }
+                
+                video.play().catch(e => {
+                    console.log("Direct play error:", e);
+                    showStreamUnavailable();
+                    isSwitchingChannel = false;
+                });
+                
                 isSwitchingChannel = false;
                 loadingIndicator.style.display = 'none';
-                hideStreamUnavailable(); // Sembunyikan pesan tidak tersedia
+                hideStreamUnavailable();
                 success = true;
                 formatBadge.textContent = "DIRECT";
                 formatBadge.style.display = 'block';
+                
+                // Mulai timer auto-hide setelah video mulai
+                showControls();
             }
             
             if (!success) {
@@ -1752,7 +1461,6 @@
             const item = document.createElement('div');
             item.className = 'channel-item';
             
-            // Deteksi tipe stream utama
             const mainStreamType = detectStreamType(ch.m3u8);
             const streamTypeLabel = mainStreamType === 'dash' ? 'mpd' : 'm3u8';
             
@@ -1769,7 +1477,6 @@
                 <span class="status-live" style="display:none">LIVE</span>
             `;
             
-            // Tambahkan logo ke elemen
             const logoContainer = item.querySelector('.channel-logo');
             const logoElement = createLogoElement(ch);
             logoContainer.appendChild(logoElement.firstChild);
@@ -1844,172 +1551,6 @@
         });
     }
 
-    // Fungsi untuk masuk ke mode fullscreen dengan rotasi landscape
-    async function enterFullscreen() {
-        const appContainer = document.querySelector('.app-container');
-        
-        if (appContainer.requestFullscreen) {
-            appContainer.requestFullscreen();
-        } else if (appContainer.webkitRequestFullscreen) {
-            appContainer.webkitRequestFullscreen();
-        } else if (appContainer.mozRequestFullScreen) {
-            appContainer.mozRequestFullScreen();
-        } else if (appContainer.msRequestFullscreen) {
-            appContainer.msRequestFullscreen();
-        }
-        
-        isFullscreen = true;
-        document.body.classList.add('fullscreen-mode');
-        channelOverlay.classList.remove('hidden');
-        showBottomControls();
-        
-        // Coba lock ke landscape setelah fullscreen
-        setTimeout(() => {
-            lockToLandscape();
-            checkOrientation();
-        }, 100);
-    }
-
-    // Fungsi untuk keluar dari mode fullscreen
-    async function exitFullscreen() {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        }
-        
-        isFullscreen = false;
-        document.body.classList.remove('fullscreen-mode');
-        
-        // Unlock orientation saat keluar fullscreen
-        await unlockOrientation();
-        hideLandscapeWarning();
-    }
-
-    // Fungsi untuk toggle fullscreen
-    function toggleFullscreen() {
-        if (!isFullscreen) {
-            enterFullscreen();
-        } else {
-            exitFullscreen();
-        }
-    }
-
-    // Support button
-    supportBtn.addEventListener('click', function() {
-        window.open('https://saweria.co');
-    });
-
-    // Settings functions
-    settingsBtn.addEventListener('click', function() {
-        settingsMenu.classList.add('active');
-        settingsOverlay.classList.add('active');
-    });
-
-    closeSettings.addEventListener('click', function() {
-        settingsMenu.classList.remove('active');
-        settingsOverlay.classList.remove('active');
-    });
-
-    settingsOverlay.addEventListener('click', function() {
-        settingsMenu.classList.remove('active');
-        settingsOverlay.classList.remove('active');
-    });
-
-    // Setup quality options
-    document.querySelectorAll('.quality-option').forEach(option => {
-        option.addEventListener('click', function() {
-            const quality = this.dataset.quality;
-            
-            document.querySelectorAll('.quality-option').forEach(opt => {
-                opt.classList.remove('active');
-            });
-            this.classList.add('active');
-            
-            applyQualitySettings(quality);
-            
-            if (currentChannel && currentSourceType === 'm3u8') {
-                playStream(currentChannel, currentSourceType);
-            }
-        });
-    });
-
-    // Fullscreen button event listeners - BARU: gunakan tombol di bawah
-    bottomFullscreenBtn.addEventListener('click', toggleFullscreen);
-    exitFullscreenBtn.addEventListener('click', toggleFullscreen);
-
-    // Tombol "Coba Channel Lain"
-    tryOtherChannelBtn.addEventListener('click', function() {
-        hideStreamUnavailable();
-        // Cari channel berikutnya
-        if (currentChannel) {
-            const currentIndex = channels.findIndex(ch => ch === currentChannel);
-            const nextIndex = (currentIndex + 1) % channels.length;
-            const nextChannel = channels[nextIndex];
-            
-            // Update UI
-            document.querySelectorAll('.channel-item').forEach(el => {
-                el.classList.remove('active');
-                const liveBadge = el.querySelector('.status-live');
-                if (liveBadge) liveBadge.style.display = 'none';
-            });
-            
-            const channelItems = document.querySelectorAll('.channel-item');
-            if (channelItems[nextIndex]) {
-                channelItems[nextIndex].classList.add('active');
-                const liveBadge = channelItems[nextIndex].querySelector('.status-live');
-                if (liveBadge) liveBadge.style.display = 'block';
-            }
-            
-            playStream(nextChannel, currentSourceType);
-        }
-    });
-
-    // Klik pada video untuk menampilkan overlay dan tombol fullscreen kembali
-    document.querySelector('.video-section').addEventListener('click', function(e) {
-        // Jangan tampilkan jika klik pada tombol di bawah
-        if (e.target.closest('.bottom-controls')) return;
-        
-        if (currentChannel) {
-            showChannelOverlay(currentChannel);
-        }
-    });
-
-    // Handle fullscreen change events
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-    function handleFullscreenChange() {
-        const isInFullscreen = document.fullscreenElement || 
-                               document.webkitFullscreenElement || 
-                               document.mozFullScreenElement || 
-                               document.msFullscreenElement;
-        
-        if (isInFullscreen) {
-            isFullscreen = true;
-            document.body.classList.add('fullscreen-mode');
-            channelOverlay.classList.remove('hidden');
-            showBottomControls();
-            
-            // Coba lock ke landscape setelah fullscreen
-            setTimeout(() => {
-                lockToLandscape();
-                checkOrientation();
-            }, 100);
-        } else {
-            isFullscreen = false;
-            document.body.classList.remove('fullscreen-mode');
-            unlockOrientation();
-            hideLandscapeWarning();
-        }
-    }
-
     // Inisialisasi saat halaman load
     window.addEventListener('DOMContentLoaded', () => {
         // Inisialisasi autoplay
@@ -2032,65 +1573,39 @@
         setInterval(updateTimeAndTheme, 60000);
         
         // Setup interval untuk monitor dan restart otomatis
-        autoRestartInterval = setInterval(restartVideoIfStopped, 3000); // Cek setiap 3 detik
-        bufferMonitorInterval = setInterval(monitorBufferHealth, 5000); // Monitor buffer setiap 5 detik
+        autoRestartInterval = setInterval(restartVideoIfStopped, 3000);
+        bufferMonitorInterval = setInterval(monitorBufferHealth, 5000);
         
         // Render channels langsung
         renderChannels();
         
-        // Main feature: AUTO PLAY CHANNEL PERTAMA
+        // AUTO PLAY CHANNEL PERTAMA SAAT APLIKASI DIBUKA
         if (channels.length > 0) {
-            // Langsung pilih dan play channel pertama
             const firstItem = document.querySelector('.channel-item');
             if (firstItem) {
                 firstItem.classList.add('active');
                 const liveBadge = firstItem.querySelector('.status-live');
                 if (liveBadge) liveBadge.style.display = 'block';
                 
-                // Tampilkan overlay untuk channel pertama
                 showChannelOverlay(channels[0]);
-                
-                // Langsung play tanpa setTimeout
-                playStream(channels[0], 'm3u8');
+                // Tunggu sebentar sebelum memulai streaming
+                setTimeout(() => {
+                    playStream(channels[0], 'm3u8');
+                }, 500);
             }
         }
         
         // Event listeners untuk video
-        video.addEventListener('pause', () => {
-            if (!isSwitchingChannel && currentSourceType !== 'youtube') {
-                console.log("Video paused, attempting to restart...");
-                setTimeout(() => {
-                    if (video.paused && !isSwitchingChannel) {
-                        video.play().catch(e => {
-                            console.log("Auto-restart failed:", e);
-                            if (!isSwitchingChannel) {
-                                showStreamUnavailable();
-                            }
-                        });
-                    }
-                }, 1000);
-            }
-        });
-        
-        video.addEventListener('ended', () => {
-            if (!isSwitchingChannel && currentSourceType !== 'youtube') {
-                console.log("Video ended, restarting...");
-                video.play().catch(e => {
-                    console.log("Restart after end failed:", e);
-                    if (!isSwitchingChannel) {
-                        showStreamUnavailable();
-                    }
-                });
-            }
-        });
-        
         video.addEventListener('playing', () => {
             console.log("Video is playing normally");
-            retryCount = 0; // Reset retry count when playing successfully
+            retryCount = 0;
+            loadingIndicator.style.display = 'none';
+            hideStreamUnavailable();
         });
         
         video.addEventListener('waiting', () => {
             console.log("Video waiting for data...");
+            loadingIndicator.style.display = 'block';
         });
         
         video.addEventListener('stalled', () => {
@@ -2115,25 +1630,90 @@
             console.log("YouTube frame loaded successfully");
             isSwitchingChannel = false;
             loadingIndicator.style.display = 'none';
-            hideStreamUnavailable(); // PASTIKAN pesan tidak tersedia disembunyikan
+            hideStreamUnavailable();
             retryCount = 0;
-        });
-        
-        youtubeFrame.addEventListener('error', () => {
-            console.log("YouTube frame error");
-            if (!isSwitchingChannel && currentChannel) {
-                showStreamUnavailable();
-            }
+            
+            // Mulai timer auto-hide setelah video mulai
+            showControls();
         });
         
         // Video error handling
         video.addEventListener('error', (e) => {
             console.log("Video element error:", e);
             if (currentChannel && !isSwitchingChannel && currentSourceType !== 'youtube') {
-                showStreamUnavailable();
+                handleStreamError(currentChannel, currentSourceType);
             }
         });
         
+        // Support button
+        supportBtn.addEventListener('click', function() {
+            window.open('https://saweria.co');
+        });
+
+        // Settings functions
+        settingsBtn.addEventListener('click', function() {
+            settingsMenu.classList.add('active');
+            settingsOverlay.classList.add('active');
+        });
+
+        closeSettings.addEventListener('click', function() {
+            settingsMenu.classList.remove('active');
+            settingsOverlay.classList.remove('active');
+        });
+
+        settingsOverlay.addEventListener('click', function() {
+            settingsMenu.classList.remove('active');
+            settingsOverlay.classList.remove('active');
+        });
+
+        // Setup quality options
+        document.querySelectorAll('.quality-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const quality = this.dataset.quality;
+                
+                document.querySelectorAll('.quality-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                applyQualitySettings(quality);
+                
+                if (currentChannel && currentSourceType === 'm3u8') {
+                    playStream(currentChannel, currentSourceType);
+                }
+            });
+        });
+
+        // Tombol "Coba Channel Lain"
+        tryOtherChannelBtn.addEventListener('click', function() {
+            hideStreamUnavailable();
+            if (currentChannel) {
+                const currentIndex = channels.findIndex(ch => ch === currentChannel);
+                const nextIndex = (currentIndex + 1) % channels.length;
+                const nextChannel = channels[nextIndex];
+                
+                document.querySelectorAll('.channel-item').forEach(el => {
+                    el.classList.remove('active');
+                    const liveBadge = el.querySelector('.status-live');
+                    if (liveBadge) liveBadge.style.display = 'none';
+                });
+                
+                const channelItems = document.querySelectorAll('.channel-item');
+                if (channelItems[nextIndex]) {
+                    channelItems[nextIndex].classList.add('active');
+                    const liveBadge = channelItems[nextIndex].querySelector('.status-live');
+                    if (liveBadge) liveBadge.style.display = 'block';
+                }
+                
+                playStream(nextChannel, currentSourceType);
+            }
+        });
+
+        // Klik pada video untuk toggle controls
+        videoSection.addEventListener('click', function(e) {
+            toggleControls();
+        });
+
         // Network online/offline detection
         window.addEventListener('online', () => {
             console.log("Network connection restored");
@@ -2145,17 +1725,12 @@
             }
         });
         
-        window.addEventListener('offline', () => {
-            console.log("Network connection lost");
-        });
-        
         // Page visibility change handler
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 console.log("Page hidden");
             } else {
                 console.log("Page visible again");
-                // Coba restart jika video berhenti saat tab tidak aktif
                 if (currentChannel && !isSwitchingChannel && (video.paused || video.ended) && currentSourceType !== 'youtube') {
                     console.log("Restarting video after page becomes visible");
                     setTimeout(() => {
@@ -2170,17 +1745,7 @@
             }
         });
         
-        // Cleanup intervals on page unload
-        window.addEventListener('beforeunload', () => {
-            if (autoRestartInterval) clearInterval(autoRestartInterval);
-            if (bufferMonitorInterval) clearInterval(bufferMonitorInterval);
-            if (networkRetryTimer) clearTimeout(networkRetryTimer);
-            if (hls) hls.destroy();
-            if (dashPlayer) dashPlayer.destroy();
-            unlockOrientation();
-        });
-        
-        // Keyboard shortcuts untuk kontrol cepat (tanpa volume control)
+        // Keyboard shortcuts untuk kontrol cepat
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
             
@@ -2188,7 +1753,6 @@
             if (e.code === 'Space') {
                 e.preventDefault();
                 if (currentSourceType === 'youtube') {
-                    // Untuk YouTube, kita tidak bisa kontrol pause/play dari luar iframe
                     return;
                 }
                 if (video.paused) {
@@ -2196,18 +1760,6 @@
                 } else {
                     video.pause();
                 }
-            }
-            
-            // 'f' untuk toggle fullscreen
-            if (e.code === 'KeyF' || e.key === 'f') {
-                e.preventDefault();
-                toggleFullscreen();
-            }
-            
-            // Escape untuk keluar fullscreen
-            if (e.code === 'Escape' && isFullscreen) {
-                e.preventDefault();
-                exitFullscreen();
             }
             
             // Panah kiri/kanan untuk channel navigation
@@ -2242,12 +1794,36 @@
             }
         });
         
-        // Event listener untuk perubahan orientasi
-        window.addEventListener('orientationchange', checkOrientation);
-        window.addEventListener('resize', checkOrientation);
+        // Double tap untuk toggle controls pada mobile
+        let lastTap = 0;
+        videoSection.addEventListener('touchend', function(e) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            
+            if (tapLength < 300 && tapLength > 0) {
+                e.preventDefault();
+                toggleControls();
+            }
+            
+            lastTap = currentTime;
+        });
         
-        // Initial orientation check
-        checkOrientation();
+        // Mouse movement detection untuk show controls
+        videoSection.addEventListener('mousemove', function() {
+            showControls();
+        });
+        
+        // Cleanup intervals on page unload
+        window.addEventListener('beforeunload', () => {
+            if (autoRestartInterval) clearInterval(autoRestartInterval);
+            if (bufferMonitorInterval) clearInterval(bufferMonitorInterval);
+            if (networkRetryTimer) clearTimeout(networkRetryTimer);
+            if (autoHideTimer) clearTimeout(autoHideTimer);
+            if (hls) hls.destroy();
+            if (dashPlayer) dashPlayer.destroy();
+        });
+        
+        console.log("Aplikasi ARF TV telah dimuat dengan sukses!");
     });
 </script>
 </body>
