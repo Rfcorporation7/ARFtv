@@ -169,11 +169,23 @@
         }
 
         /* Header */
-        .header-bar { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); transition: border-color 0.3s; }
+        .header-bar { 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border); 
+            transition: border-color 0.3s; 
+        }
+        
         .logo { font-size: 20px; font-weight: 800; color: var(--text-main); }
         .logo span { color: var(--accent); }
         
-        .header-controls { display: flex; align-items: center; gap: 10px; }
+        .header-controls { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
         
         /* Settings Menu */
         .settings-menu { 
@@ -298,19 +310,44 @@
         }
         
         /* Channel List */
-        .channel-list { flex: 1; overflow-y: auto; padding: 10px; }
+        .channel-list { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 10px; 
+        }
+        
         .channel-item { 
-            display: flex; align-items: center; padding: 12px; margin-bottom: 8px;
-            border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid transparent;
+            display: flex; 
+            align-items: center; 
+            padding: 12px; 
+            margin-bottom: 8px;
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            border: 1px solid transparent;
             background-color: var(--primary);
         }
-        .channel-item:hover { background-color: var(--secondary); }
-        .channel-item.active { background-color: rgba(0, 122, 255, 0.1); border-color: rgba(0, 122, 255, 0.3); }
+        
+        .channel-item:hover { 
+            background-color: var(--secondary); 
+        }
+        
+        .channel-item.active { 
+            background-color: rgba(0, 122, 255, 0.1); 
+            border-color: rgba(0, 122, 255, 0.3); 
+        }
         
         .channel-logo { 
-            width: 45px; height: 45px; border-radius: 10px; margin-right: 12px; 
-            display: flex; justify-content: center; align-items: center; 
-            font-size: 10px; font-weight: bold; text-align: center;
+            width: 45px; 
+            height: 45px; 
+            border-radius: 10px; 
+            margin-right: 12px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            font-size: 10px; 
+            font-weight: bold; 
+            text-align: center;
             overflow: hidden;
             flex-shrink: 0;
         }
@@ -326,26 +363,75 @@
             font-weight: bold;
         }
         
-        .channel-info { flex: 1; }
-        .channel-name { font-weight: 700; font-size: 14px; color: var(--text-main); }
-        .channel-desc { font-size: 11px; color: var(--text-sub); }
+        .channel-info { 
+            flex: 1; 
+        }
         
-        .status-live { font-size: 9px; font-weight: 800; padding: 4px 8px; border-radius: 6px; background: #ffe5e5; color: #ff4757; }
+        .channel-name { 
+            font-weight: 700; 
+            font-size: 14px; 
+            color: var(--text-main); 
+        }
+        
+        .channel-desc { 
+            font-size: 11px; 
+            color: var(--text-sub); 
+        }
+        
+        .status-live { 
+            font-size: 9px; 
+            font-weight: 800; 
+            padding: 4px 8px; 
+            border-radius: 6px; 
+            background: #ffe5e5; 
+            color: #ff4757; 
+        }
 
         /* Source Selector */
-        .source-selector { display: flex; gap: 5px; margin-top: 5px; }
-        .source-btn { 
-            font-size: 9px; padding: 3px 8px; border-radius: 10px; 
-            border: 1px solid var(--border); background: var(--primary); 
-            cursor: pointer; color: var(--text-sub);
+        .source-selector { 
+            display: flex; 
+            gap: 5px; 
+            margin-top: 5px; 
         }
+        
+        .source-btn { 
+            font-size: 9px; 
+            padding: 3px 8px; 
+            border-radius: 10px; 
+            border: 1px solid var(--border); 
+            background: var(--primary); 
+            cursor: pointer; 
+            color: var(--text-sub);
+        }
+        
         .source-btn.active { 
-            background: var(--accent); color: white; border-color: var(--accent);
+            background: var(--accent); 
+            color: white; 
+            border-color: var(--accent);
         }
 
-        .footer { padding: 15px; display: flex; gap: 10px; border-top: 1px solid var(--border); transition: border-color 0.3s; }
-        .btn { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 13px; }
-        .btn-saweria { background: var(--accent); color: white; }
+        .footer { 
+            padding: 15px; 
+            display: flex; 
+            gap: 10px; 
+            border-top: 1px solid var(--border); 
+            transition: border-color 0.3s; 
+        }
+        
+        .btn { 
+            flex: 1; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            font-size: 13px; 
+        }
+        
+        .btn-saweria { 
+            background: var(--accent); 
+            color: white; 
+        }
         
         .settings-btn {
             background: none;
@@ -366,10 +452,18 @@
             background-color: var(--secondary);
         }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: #dfe6e9; border-radius: 10px; }
+        ::-webkit-scrollbar { 
+            width: 4px; 
+        }
         
-        .dark-mode ::-webkit-scrollbar-thumb { background: #444; }
+        ::-webkit-scrollbar-thumb { 
+            background: #dfe6e9; 
+            border-radius: 10px; 
+        }
+        
+        .dark-mode ::-webkit-scrollbar-thumb { 
+            background: #444; 
+        }
         
         /* Overlay untuk klik luar settings */
         .settings-overlay {
@@ -511,7 +605,12 @@
             pointer-events: none;
         }
         
-        /* Auto-hide animation */
+        /* Animasi untuk exit dialog */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         @keyframes fadeOut {
             from { opacity: 1; }
             to { opacity: 0; }
@@ -611,7 +710,7 @@
             <div class="app-name-overlay">ARF<span>tv</span></div>
         </div>
         
-        <!-- Bottom Controls (kosong karena tombol fullscreen dihapus) -->
+        <!-- Bottom Controls -->
         <div class="bottom-controls" id="bottomControls">
             <!-- Tombol fullscreen telah dihapus -->
         </div>
@@ -629,7 +728,7 @@
         <div class="logo">ARF<span>tv</span></div>
         <div class="header-controls">
             <div style="font-size: 11px; color: var(--text-sub); margin-right: 10px;">TV Indonesia</div>
-            <!-- Tombol settings saja -->
+            <!-- Tombol settings -->
             <button class="settings-btn" id="settingsBtn" title="Pengaturan">
                 <i class="fas fa-cog"></i>
             </button>
@@ -646,17 +745,17 @@
 </div>
 
 <script>
-    // Link Channel TV Indonesia dengan 2 alternatif sumber dan logo
+    // ========== KONFIGURASI CHANNEL ==========
     const channels = [
-        { 
-            name: "EPL", 
-            desc: "Manchester City Vs Chelsea", 
-            m3u8: "https://tfs96grzdkpbqgrzdqp3pptwzc3jtf3a8r531cp1gh5djq311ha5xpw.100ycdn.com/live1.pro2cdnlive.com/live/channel15/playlist.m3u8", 
+       { 
+            name: "LIGA 1", 
+            desc: "FC Bayangkara vs Dewa United", 
+            m3u8: "https://cxyznt2-cf.didjhfyu8yg.sbs/auth=79410d577d4debc5d405d18c681359ca92038806ea66d861bf6290fdab83f02cdb12602643ce609f15a8ef1952644957aefb8f8a71beb35b7e7c4ad321055b6ffd84204a48837f31eb6ae939243a7d902493e278958e38651619b8ebd4b2893fbd252b09be6feff50ab3b6c5edebf9dc9895c46fae1603882a7e953b0101074dd9c5c96264a846a969b5e12c809429e5853bce39d672301e8dba7a68bf04a8ee&cid=Z9sEewXzsuKN92u3M0Uui260105&_v=2&_r=szPC8t&_vis=c47448d74664e6d73c4afff1305f0c5ad7431dc1b6e88865b9e1d8ae8d224aeb&_vvs=1ff585302d8bdf6d801b182101ab7356654f6b0c608688934f674f46e0866223/app/c395081.m3u8", 
             youtube: "FvxkiZgyBHo",
             color: "#ffffff",
-            logo: "https://i.ibb.co/n8grzttD/Polish-20260103-234200981.png"
-        },      
-        
+            logo: "https://i.ibb.co/RWNQZ5v/20260104-194715-0000.png"
+        },
+  
         { 
             name: "RCTI", 
             desc: "MNC Group", 
@@ -769,8 +868,6 @@
             color: "#ffffff",
             logo: "https://i.ibb.co/4ktSrNL/7-20260104-010416-0006.png"
         },
-
-
         { 
             name: "Serie A", 
             desc: "Juventus vs Lecce", 
@@ -780,13 +877,21 @@
             logo: "https://i.ibb.co/9m97Jmcb/Polish-20260104-001033195.png"
         },
         { 
+            name: "EPL", 
+            desc: "Manchester City Vs Chelsea", 
+            m3u8: "https://tfs96grzdkpbqgrzdqp3pptwzc3jtf3a8r531cp1gh5djq311ha5xpw.100ycdn.com/live1.pro2cdnlive.com/live/channel15/playlist.m3u8", 
+            youtube: "FvxkiZgyBHo",
+            color: "#ffffff",
+            logo: "https://i.ibb.co/n8grzttD/Polish-20260103-234200981.png"
+        },            
+        { 
             name: "C A F", 
             desc: "Senegal vs Sudan", 
             m3u8: "https://cxyznt2-cf.didjhfyu8yg.sbs/auth=197b00493f3d7ce5cb6409206680b70469cb54282d8dbc0dd2862c6e1175fe7b1ce2d1e521844c85221fb0ef8bff66e1937ec8087d8e4c3b500ce8e8b652f6e8026d627b5d5fb251655950c24ea21de466b1bf1c349ecb42162c41311a0f7a2c7d087793b21ac4593c00abd47197ae690e2d9f5a55014bbe7df3c25b4448e40306dbcfdd18e17a728dafbce78cd8ec1d7f03f0b6854079b454c15e63597e87dbe78029119037b9dbcf7ec2642acb9bb3ba6b70505abcd4c8adea9dbf8a427e6c581f26639e3ad80adbb6cd38b0e0b4be&cid=LDfmbWiWTuxkbtC8C3fxT260103&_v=2&_r=yLhL8x&_vis=64dcd172f89000ad44bbadc81e82c3bb0abc026d0dcf9f676f13ffccc2a3e5c9&_vvs=e488c7b20c6b2f25b0ecd82c0394e8009c5b79f5dbf69607d2b872703053d817/transcode/c395057_480p.m3u8", 
             youtube: "FvxkiZgyBHo",
             color: "#ffffff",
             logo: "https://i.ibb.co/HDZkLsmj/1767461134287.png"
-        },       
+        }
     ];
 
     // Backup logo jika gambar utama gagal load
@@ -811,29 +916,7 @@
         "C A F": "CAF"
     };
 
-    // Variabel global
-    const video = document.getElementById('main-video');
-    const youtubeFrame = document.getElementById('youtube-frame');
-    const listContainer = document.getElementById('list-container');
-    const supportBtn = document.getElementById('support-btn');
-    const autoplayTrigger = document.getElementById('autoplay-trigger');
-    const settingsBtn = document.getElementById('settingsBtn');
-    const settingsMenu = document.getElementById('settingsMenu');
-    const closeSettings = document.getElementById('closeSettings');
-    const settingsOverlay = document.getElementById('settingsOverlay');
-    const themeInfo = document.getElementById('themeInfo');
-    const currentTimeDisplay = document.getElementById('currentTimeDisplay');
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    const channelOverlay = document.getElementById('channelOverlay');
-    const currentChannelName = document.getElementById('currentChannelName');
-    const currentChannelLogo = document.getElementById('currentChannelLogo');
-    const formatBadge = document.getElementById('formatBadge');
-    const streamUnavailable = document.getElementById('streamUnavailable');
-    const tryOtherChannelBtn = document.getElementById('tryOtherChannel');
-    const bottomControls = document.getElementById('bottomControls');
-    const videoSection = document.getElementById('videoSection');
-    const appContainer = document.querySelector('.app-container');
-    
+    // ========== DEKLARASI VARIABEL GLOBAL ==========
     let hls = null;
     let dashPlayer = null;
     let currentSourceType = 'm3u8';
@@ -847,10 +930,100 @@
     let networkRetryTimer = null;
     let autoHideTimer = null;
     let controlsVisible = true;
+    let backButtonPressed = false;
+    let isPageClosing = false;
+
+    // ========== FUNGSI STOP STREAMING ==========
+    function stopAllStreaming() {
+        console.log("Menghentikan semua streaming...");
+        
+        // Hentikan semua streaming dan bersihkan resource
+        if (hls) {
+            hls.destroy();
+            hls = null;
+        }
+        
+        if (dashPlayer) {
+            dashPlayer.destroy();
+            dashPlayer = null;
+        }
+        
+        // Hentikan video
+        const video = document.getElementById('main-video');
+        if (video) {
+            video.pause();
+            video.src = '';
+            video.load();
+        }
+        
+        // Hentikan YouTube
+        const youtubeFrame = document.getElementById('youtube-frame');
+        if (youtubeFrame) {
+            youtubeFrame.src = '';
+        }
+        
+        // Hentikan semua interval dan timer
+        if (autoRestartInterval) clearInterval(autoRestartInterval);
+        if (bufferMonitorInterval) clearInterval(bufferMonitorInterval);
+        if (networkRetryTimer) clearTimeout(networkRetryTimer);
+        if (autoHideTimer) clearTimeout(autoHideTimer);
+    }
+
+    // Fungsi untuk mendeteksi dan menghentikan streaming saat halaman ditutup/tidak aktif
+    function setupStreamingCleanup() {
+        // Deteksi ketika halaman akan ditutup
+        window.addEventListener('beforeunload', function(e) {
+            isPageClosing = true;
+            stopAllStreaming();
+            console.log("Halaman akan ditutup, streaming dihentikan");
+        });
+        
+        // Deteksi ketika tab/window tidak aktif (hidden)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                console.log("Halaman tidak aktif, menghentikan streaming");
+                stopAllStreaming();
+            } else {
+                console.log("Halaman aktif kembali");
+                // Saat halaman aktif kembali, refresh dan mulai ulang
+                if (currentChannel && !isPageClosing) {
+                    setTimeout(() => {
+                        location.reload();
+                    }, 500);
+                }
+            }
+        });
+        
+        // Deteksi ketika aplikasi pindah ke background (untuk PWA/mobile)
+        if (typeof document.hidden !== "undefined") {
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    console.log("Aplikasi di background, menghentikan streaming");
+                    stopAllStreaming();
+                }
+            });
+        }
+        
+        // Deteksi saat perangkat masuk mode sleep/standby
+        window.addEventListener('blur', function() {
+            console.log("Window kehilangan fokus, menghentikan streaming");
+            stopAllStreaming();
+        });
+        
+        // Untuk iOS: deteksi saat aplikasi pindah ke background
+        document.addEventListener('webkitvisibilitychange', function() {
+            if (document.webkitHidden) {
+                console.log("iOS: Aplikasi di background, menghentikan streaming");
+                stopAllStreaming();
+            }
+        });
+    }
 
     // ========== FUNGSI AUTO-HIDE CONTROLS ==========
     function showControls() {
-        console.log("Showing controls");
+        const channelOverlay = document.getElementById('channelOverlay');
+        const bottomControls = document.getElementById('bottomControls');
+        
         channelOverlay.classList.remove('hidden');
         bottomControls.classList.remove('hidden');
         controlsVisible = true;
@@ -862,13 +1035,14 @@
         
         // Set timer untuk auto-hide setelah 3 detik
         autoHideTimer = setTimeout(() => {
-            console.log("Auto-hiding controls");
             hideControls();
         }, 3000);
     }
     
     function hideControls() {
-        console.log("Hiding controls");
+        const channelOverlay = document.getElementById('channelOverlay');
+        const bottomControls = document.getElementById('bottomControls');
+        
         channelOverlay.classList.add('hidden');
         bottomControls.classList.add('hidden');
         controlsVisible = false;
@@ -888,7 +1062,10 @@
         const hours = now.getHours();
         const minutes = now.getMinutes().toString().padStart(2, '0');
         
-        currentTimeDisplay.textContent = `${hours}:${minutes}`;
+        const currentTimeDisplay = document.getElementById('currentTimeDisplay');
+        if (currentTimeDisplay) {
+            currentTimeDisplay.textContent = `${hours}:${minutes}`;
+        }
         
         if (hours >= 18 || hours < 6) {
             document.body.classList.add('dark-mode');
@@ -901,38 +1078,6 @@
     function applyQualitySettings(quality) {
         currentQuality = quality;
         localStorage.setItem('videoQuality', quality);
-    }
-
-    // Fungsi untuk memutar YouTube
-    function playYouTube(videoId) {
-        if (!videoId) {
-            console.log("No YouTube video ID available");
-            showStreamUnavailable();
-            return false;
-        }
-        
-        const params = new URLSearchParams({
-            'autoplay': '1',
-            'mute': '0',
-            'playsinline': '1',
-            'controls': '0',
-            'rel': '0',
-            'modestbranding': '1',
-            'fs': '1',
-            'disablekb': '1'
-        });
-        
-        youtubeFrame.src = `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
-        youtubeFrame.style.display = 'block';
-        video.style.display = 'none';
-        
-        formatBadge.textContent = "YouTube";
-        formatBadge.style.display = 'block';
-        
-        loadingIndicator.style.display = 'none';
-        hideStreamUnavailable();
-        
-        return true;
     }
 
     // Fungsi untuk deteksi tipe stream
@@ -950,9 +1095,54 @@
         }
     }
 
+    // Fungsi untuk memutar YouTube
+    function playYouTube(videoId) {
+        if (!videoId) {
+            console.log("No YouTube video ID available");
+            showStreamUnavailable();
+            return false;
+        }
+        
+        const youtubeFrame = document.getElementById('youtube-frame');
+        const video = document.getElementById('main-video');
+        const formatBadge = document.getElementById('formatBadge');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        
+        const params = new URLSearchParams({
+            'autoplay': '1',
+            'mute': '0',
+            'playsinline': '1',
+            'controls': '0',
+            'rel': '0',
+            'modestbranding': '1',
+            'fs': '1',
+            'disablekb': '1'
+        });
+        
+        youtubeFrame.src = `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
+        youtubeFrame.style.display = 'block';
+        video.style.display = 'none';
+        
+        if (formatBadge) {
+            formatBadge.textContent = "YouTube";
+            formatBadge.style.display = 'block';
+        }
+        
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'none';
+        }
+        
+        hideStreamUnavailable();
+        
+        return true;
+    }
+
     // Fungsi untuk memutar stream DASH
     function playDashStream(url) {
-        if (!dashjs.supportsMediaSource()) {
+        const video = document.getElementById('main-video');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        
+        if (!dashjs || !dashjs.supportsMediaSource()) {
             console.log("DASH not supported in this browser");
             showStreamUnavailable();
             return false;
@@ -1025,7 +1215,9 @@
             dashPlayer.on(dashjs.MediaPlayer.events.PLAYBACK_PLAYING, () => {
                 console.log("DASH playback started");
                 isSwitchingChannel = false;
-                loadingIndicator.style.display = 'none';
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+                }
                 hideStreamUnavailable();
                 retryCount = 0;
                 
@@ -1050,7 +1242,11 @@
 
     // Fungsi untuk memutar stream HLS
     function playHlsStream(url) {
-        if (Hls.isSupported()) {
+        const video = document.getElementById('main-video');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const formatBadge = document.getElementById('formatBadge');
+        
+        if (Hls && Hls.isSupported()) {
             if (hls) {
                 hls.destroy();
                 hls = null;
@@ -1106,7 +1302,9 @@
                 }
                 
                 isSwitchingChannel = false;
-                loadingIndicator.style.display = 'none';
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+                }
                 hideStreamUnavailable();
                 retryCount = 0;
                 
@@ -1137,6 +1335,11 @@
                 }
             });
             
+            if (formatBadge) {
+                formatBadge.textContent = "HLS";
+                formatBadge.style.display = 'block';
+            }
+            
             return true;
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = url;
@@ -1150,9 +1353,16 @@
             });
             
             isSwitchingChannel = false;
-            loadingIndicator.style.display = 'none';
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
             hideStreamUnavailable();
             retryCount = 0;
+            
+            if (formatBadge) {
+                formatBadge.textContent = "HLS";
+                formatBadge.style.display = 'block';
+            }
             
             // Mulai timer auto-hide setelah video mulai
             showControls();
@@ -1187,13 +1397,16 @@
     // Inisialisasi autoplay dengan sekali klik
     function initializeAutoplay() {
         const clickHandler = () => {
+            const autoplayTrigger = document.getElementById('autoplay-trigger');
+            const video = document.getElementById('main-video');
+            
             if (autoplayTrigger) {
                 autoplayTrigger.play().then(() => {
                     console.log("Autoplay unlocked");
                 }).catch(console.log);
             }
             
-            if (video.muted) {
+            if (video && video.muted) {
                 video.muted = false;
                 video.volume = 1;
             }
@@ -1203,6 +1416,7 @@
         
         document.addEventListener('click', clickHandler);
         
+        const autoplayTrigger = document.getElementById('autoplay-trigger');
         if (autoplayTrigger) {
             autoplayTrigger.play().catch(() => {
                 console.log("Will unlock on first click");
@@ -1212,12 +1426,18 @@
 
     // Fungsi untuk menampilkan overlay channel
     function showChannelOverlay(channel) {
-        currentChannelName.textContent = channel.name;
+        const currentChannelName = document.getElementById('currentChannelName');
+        const currentChannelLogo = document.getElementById('currentChannelLogo');
         
-        currentChannelLogo.innerHTML = '';
+        if (currentChannelName) {
+            currentChannelName.textContent = channel.name;
+        }
         
-        const logoContainer = createLogoElement(channel, true);
-        currentChannelLogo.appendChild(logoContainer.firstChild);
+        if (currentChannelLogo) {
+            currentChannelLogo.innerHTML = '';
+            const logoContainer = createLogoElement(channel, true);
+            currentChannelLogo.appendChild(logoContainer.firstChild);
+        }
         
         showControls();
     }
@@ -1227,6 +1447,9 @@
         if (!currentChannel || isSwitchingChannel) return;
         
         if (currentSourceType === 'youtube') return;
+        
+        const video = document.getElementById('main-video');
+        if (!video) return;
         
         if ((video.paused && !video.ended) || video.ended) {
             console.log("Video stopped, attempting to restart...");
@@ -1256,6 +1479,9 @@
     // Fungsi untuk monitor buffer health
     function monitorBufferHealth() {
         if (!currentChannel || isSwitchingChannel || currentSourceType === 'youtube') return;
+        
+        const video = document.getElementById('main-video');
+        if (!video) return;
         
         if (video.buffered.length > 0) {
             const bufferedEnd = video.buffered.end(video.buffered.length - 1);
@@ -1307,11 +1533,26 @@
     // ========== STREAMING TIDAK TERSEDIA ==========
     function showStreamUnavailable() {
         console.log("Menampilkan pesan streaming tidak tersedia");
-        streamUnavailable.style.display = 'flex';
-        loadingIndicator.style.display = 'none';
+        const streamUnavailable = document.getElementById('streamUnavailable');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const video = document.getElementById('main-video');
+        const youtubeFrame = document.getElementById('youtube-frame');
         
-        video.style.display = 'none';
-        youtubeFrame.style.display = 'none';
+        if (streamUnavailable) {
+            streamUnavailable.style.display = 'flex';
+        }
+        
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'none';
+        }
+        
+        if (video) {
+            video.style.display = 'none';
+        }
+        
+        if (youtubeFrame) {
+            youtubeFrame.style.display = 'none';
+        }
         
         if (hls) {
             hls.destroy();
@@ -1324,7 +1565,10 @@
     }
     
     function hideStreamUnavailable() {
-        streamUnavailable.style.display = 'none';
+        const streamUnavailable = document.getElementById('streamUnavailable');
+        if (streamUnavailable) {
+            streamUnavailable.style.display = 'none';
+        }
     }
 
     // Fungsi untuk memutar stream
@@ -1342,13 +1586,19 @@
         currentChannel = channel;
         currentSourceType = sourceType;
         
-        loadingIndicator.style.display = 'block';
-        hideStreamUnavailable();
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'block';
+        }
         
+        hideStreamUnavailable();
         showChannelOverlay(channel);
         
-        video.volume = 1;
-        video.muted = false;
+        const video = document.getElementById('main-video');
+        if (video) {
+            video.volume = 1;
+            video.muted = false;
+        }
         
         if (sourceType === 'youtube') {
             if (!channel.youtube) {
@@ -1358,8 +1608,12 @@
                 return;
             }
             
-            video.style.display = 'none';
-            video.pause();
+            if (video) {
+                video.style.display = 'none';
+                video.pause();
+            }
+            
+            const youtubeFrame = document.getElementById('youtube-frame');
             
             if (hls) {
                 hls.destroy();
@@ -1373,30 +1627,43 @@
             const success = playYouTube(channel.youtube);
             if (success) {
                 isSwitchingChannel = false;
-                loadingIndicator.style.display = 'none';
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+                }
                 hideStreamUnavailable();
             } else {
                 showStreamUnavailable();
                 isSwitchingChannel = false;
             }
         } else {
-            youtubeFrame.src = '';
-            youtubeFrame.style.display = 'none';
-            video.style.display = 'block';
+            const youtubeFrame = document.getElementById('youtube-frame');
+            const video = document.getElementById('main-video');
+            const formatBadge = document.getElementById('formatBadge');
+            
+            if (youtubeFrame) {
+                youtubeFrame.src = '';
+                youtubeFrame.style.display = 'none';
+            }
+            
+            if (video) {
+                video.style.display = 'block';
+            }
             
             const streamUrl = channel.m3u8;
             const streamType = detectStreamType(streamUrl);
             
             console.log(`Playing ${channel.name} - Type: ${streamType} - Quality: ${currentQuality}`);
             
-            if (streamType === 'hls') {
-                formatBadge.textContent = "HLS";
-                formatBadge.style.display = 'block';
-            } else if (streamType === 'dash') {
-                formatBadge.textContent = "DASH";
-                formatBadge.style.display = 'block';
-            } else {
-                formatBadge.style.display = 'none';
+            if (formatBadge) {
+                if (streamType === 'hls') {
+                    formatBadge.textContent = "HLS";
+                    formatBadge.style.display = 'block';
+                } else if (streamType === 'dash') {
+                    formatBadge.textContent = "DASH";
+                    formatBadge.style.display = 'block';
+                } else {
+                    formatBadge.style.display = 'none';
+                }
             }
             
             if (hls) {
@@ -1414,21 +1681,28 @@
             } else if (streamType === 'dash') {
                 success = playDashStream(streamUrl);
             } else {
-                video.src = streamUrl;
-                video.load();
-                
-                video.play().catch(e => {
-                    console.log("Direct play error:", e);
-                    showStreamUnavailable();
-                    isSwitchingChannel = false;
-                });
+                if (video) {
+                    video.src = streamUrl;
+                    video.load();
+                    
+                    video.play().catch(e => {
+                        console.log("Direct play error:", e);
+                        showStreamUnavailable();
+                        isSwitchingChannel = false;
+                    });
+                }
                 
                 isSwitchingChannel = false;
-                loadingIndicator.style.display = 'none';
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+                }
                 hideStreamUnavailable();
                 success = true;
-                formatBadge.textContent = "DIRECT";
-                formatBadge.style.display = 'block';
+                
+                if (formatBadge) {
+                    formatBadge.textContent = "DIRECT";
+                    formatBadge.style.display = 'block';
+                }
                 
                 // Mulai timer auto-hide setelah video mulai
                 showControls();
@@ -1443,6 +1717,9 @@
 
     // Render channels
     function renderChannels() {
+        const listContainer = document.getElementById('list-container');
+        if (!listContainer) return;
+        
         channels.forEach((ch, index) => {
             const item = document.createElement('div');
             item.className = 'channel-item';
@@ -1491,54 +1768,61 @@
             const m3u8Btn = item.querySelector('.m3u8-btn');
             const youtubeBtn = item.querySelector('.youtube-btn');
 
-            m3u8Btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (isSwitchingChannel) return;
-                
-                if (this.classList.contains('active')) return;
-                
-                item.querySelectorAll('.source-btn').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                
-                document.querySelectorAll('.channel-item').forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.querySelector('.m3u8-btn').classList.remove('active');
-                        otherItem.querySelector('.youtube-btn').classList.remove('active');
-                        otherItem.querySelector('.m3u8-btn').classList.add('active');
+            if (m3u8Btn) {
+                m3u8Btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (isSwitchingChannel) return;
+                    
+                    if (this.classList.contains('active')) return;
+                    
+                    item.querySelectorAll('.source-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    document.querySelectorAll('.channel-item').forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.querySelector('.m3u8-btn').classList.remove('active');
+                            otherItem.querySelector('.youtube-btn').classList.remove('active');
+                            otherItem.querySelector('.m3u8-btn').classList.add('active');
+                        }
+                    });
+                    
+                    if (item.classList.contains('active')) {
+                        playStream(ch, 'm3u8');
                     }
                 });
-                
-                if (item.classList.contains('active')) {
-                    playStream(ch, 'm3u8');
-                }
-            });
+            }
 
-            youtubeBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (isSwitchingChannel) return;
-                
-                if (this.classList.contains('active')) return;
-                
-                item.querySelectorAll('.source-btn').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                
-                document.querySelectorAll('.channel-item').forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.querySelector('.m3u8-btn').classList.remove('active');
-                        otherItem.querySelector('.youtube-btn').classList.remove('active');
-                        otherItem.querySelector('.m3u8-btn').classList.add('active');
+            if (youtubeBtn) {
+                youtubeBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (isSwitchingChannel) return;
+                    
+                    if (this.classList.contains('active')) return;
+                    
+                    item.querySelectorAll('.source-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    document.querySelectorAll('.channel-item').forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.querySelector('.m3u8-btn').classList.remove('active');
+                            otherItem.querySelector('.youtube-btn').classList.remove('active');
+                            otherItem.querySelector('.m3u8-btn').classList.add('active');
+                        }
+                    });
+                    
+                    if (item.classList.contains('active')) {
+                        playStream(ch, 'youtube');
                     }
                 });
-                
-                if (item.classList.contains('active')) {
-                    playStream(ch, 'youtube');
-                }
-            });
+            }
         });
     }
 
-    // Inisialisasi saat halaman load
-    window.addEventListener('DOMContentLoaded', () => {
+    // ========== INISIALISASI APLIKASI ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Setup streaming cleanup (untuk otomatis stop saat halaman ditutup/tidak aktif)
+        setupStreamingCleanup();
+        
         // Inisialisasi autoplay
         initializeAutoplay();
         
@@ -1581,76 +1865,108 @@
             }
         }
         
+        // ========== EVENT LISTENERS ==========
+        
         // Event listeners untuk video
-        video.addEventListener('playing', () => {
-            console.log("Video is playing normally");
-            retryCount = 0;
-            loadingIndicator.style.display = 'none';
-            hideStreamUnavailable();
-        });
-        
-        video.addEventListener('waiting', () => {
-            console.log("Video waiting for data...");
-            loadingIndicator.style.display = 'block';
-        });
-        
-        video.addEventListener('stalled', () => {
-            console.log("Media playback stalled");
-            if (!isSwitchingChannel && currentSourceType !== 'youtube') {
-                setTimeout(() => {
-                    if (video.paused || video.ended) {
-                        console.log("Attempting to recover from stall");
-                        video.play().catch(e => {
-                            console.log("Stall recovery failed:", e);
-                            if (!isSwitchingChannel) {
-                                showStreamUnavailable();
-                            }
-                        });
-                    }
-                }, 2000);
-            }
-        });
+        const video = document.getElementById('main-video');
+        if (video) {
+            video.addEventListener('playing', () => {
+                console.log("Video is playing normally");
+                retryCount = 0;
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+                }
+                hideStreamUnavailable();
+            });
+            
+            video.addEventListener('waiting', () => {
+                console.log("Video waiting for data...");
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'block';
+                }
+            });
+            
+            video.addEventListener('stalled', () => {
+                console.log("Media playback stalled");
+                if (!isSwitchingChannel && currentSourceType !== 'youtube') {
+                    setTimeout(() => {
+                        if (video.paused || video.ended) {
+                            console.log("Attempting to recover from stall");
+                            video.play().catch(e => {
+                                console.log("Stall recovery failed:", e);
+                                if (!isSwitchingChannel) {
+                                    showStreamUnavailable();
+                                }
+                            });
+                        }
+                    }, 2000);
+                }
+            });
+            
+            video.addEventListener('error', (e) => {
+                console.log("Video element error:", e);
+                if (currentChannel && !isSwitchingChannel && currentSourceType !== 'youtube') {
+                    handleStreamError(currentChannel, currentSourceType);
+                }
+            });
+        }
         
         // YouTube frame error handling
-        youtubeFrame.addEventListener('load', () => {
-            console.log("YouTube frame loaded successfully");
-            isSwitchingChannel = false;
-            loadingIndicator.style.display = 'none';
-            hideStreamUnavailable();
-            retryCount = 0;
-            
-            // Mulai timer auto-hide setelah video mulai
-            showControls();
-        });
-        
-        // Video error handling
-        video.addEventListener('error', (e) => {
-            console.log("Video element error:", e);
-            if (currentChannel && !isSwitchingChannel && currentSourceType !== 'youtube') {
-                handleStreamError(currentChannel, currentSourceType);
-            }
-        });
+        const youtubeFrame = document.getElementById('youtube-frame');
+        if (youtubeFrame) {
+            youtubeFrame.addEventListener('load', () => {
+                console.log("YouTube frame loaded successfully");
+                isSwitchingChannel = false;
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+                }
+                hideStreamUnavailable();
+                retryCount = 0;
+                
+                // Mulai timer auto-hide setelah video mulai
+                showControls();
+            });
+        }
         
         // Support button
-        supportBtn.addEventListener('click', function() {
-            window.open('https://saweria.co');
-        });
+        const supportBtn = document.getElementById('support-btn');
+        if (supportBtn) {
+            supportBtn.addEventListener('click', function() {
+                window.open('https://saweria.co');
+            });
+        }
 
         // Settings functions
-        settingsBtn.addEventListener('click', function() {
-            settingsMenu.classList.add('active');
-            settingsOverlay.classList.add('active');
-        });
-
-        closeSettings.addEventListener('click', function() {
-            settingsMenu.classList.remove('active');
-            settingsOverlay.classList.remove('active');
-        });
-
-        settingsOverlay.addEventListener('click', function() {
-            settingsMenu.classList.remove('active');
-            settingsOverlay.classList.remove('active');
-        });
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsMenu = document.getElementById('settingsMenu');
+        const closeSettings = document.getElementById('closeSettings');
+        const settingsOverlay = document.getElementById('settingsOverlay');
+        
+        if (settingsBtn && settingsMenu) {
+            settingsBtn.addEventListener('click', function() {
+                settingsMenu.classList.add('active');
+                if (settingsOverlay) {
+                    settingsOverlay.classList.add('active');
+                }
+            });
+        }
+        
+        if (closeSettings && settingsMenu && settingsOverlay) {
+            closeSettings.addEventListener('click', function() {
+                settingsMenu.classList.remove('active');
+                settingsOverlay.classList.remove('active');
+            });
+        }
+        
+        if (settingsOverlay && settingsMenu) {
+            settingsOverlay.addEventListener('click', function() {
+                settingsMenu.classList.remove('active');
+                settingsOverlay.classList.remove('active');
+            });
+        }
 
         // Setup quality options
         document.querySelectorAll('.quality-option').forEach(option => {
@@ -1671,80 +1987,77 @@
         });
 
         // Tombol "Coba Channel Lain"
-        tryOtherChannelBtn.addEventListener('click', function() {
-            hideStreamUnavailable();
-            if (currentChannel) {
-                const currentIndex = channels.findIndex(ch => ch === currentChannel);
-                const nextIndex = (currentIndex + 1) % channels.length;
-                const nextChannel = channels[nextIndex];
-                
-                document.querySelectorAll('.channel-item').forEach(el => {
-                    el.classList.remove('active');
-                    const liveBadge = el.querySelector('.status-live');
-                    if (liveBadge) liveBadge.style.display = 'none';
-                });
-                
-                const channelItems = document.querySelectorAll('.channel-item');
-                if (channelItems[nextIndex]) {
-                    channelItems[nextIndex].classList.add('active');
-                    const liveBadge = channelItems[nextIndex].querySelector('.status-live');
-                    if (liveBadge) liveBadge.style.display = 'block';
+        const tryOtherChannelBtn = document.getElementById('tryOtherChannel');
+        if (tryOtherChannelBtn) {
+            tryOtherChannelBtn.addEventListener('click', function() {
+                hideStreamUnavailable();
+                if (currentChannel) {
+                    const currentIndex = channels.findIndex(ch => ch === currentChannel);
+                    const nextIndex = (currentIndex + 1) % channels.length;
+                    const nextChannel = channels[nextIndex];
+                    
+                    document.querySelectorAll('.channel-item').forEach(el => {
+                        el.classList.remove('active');
+                        const liveBadge = el.querySelector('.status-live');
+                        if (liveBadge) liveBadge.style.display = 'none';
+                    });
+                    
+                    const channelItems = document.querySelectorAll('.channel-item');
+                    if (channelItems[nextIndex]) {
+                        channelItems[nextIndex].classList.add('active');
+                        const liveBadge = channelItems[nextIndex].querySelector('.status-live');
+                        if (liveBadge) liveBadge.style.display = 'block';
+                    }
+                    
+                    playStream(nextChannel, currentSourceType);
                 }
-                
-                playStream(nextChannel, currentSourceType);
-            }
-        });
+            });
+        }
 
         // Klik pada video untuk toggle controls
-        videoSection.addEventListener('click', function(e) {
-            toggleControls();
+        const videoSection = document.getElementById('videoSection');
+        if (videoSection) {
+            videoSection.addEventListener('click', function(e) {
+                toggleControls();
+            });
+        }
+
+        // ========== HANDLE TOMBOL KEMBALI ==========
+        
+        // Untuk menangani history state
+        window.history.pushState({page: "arf_tv"}, "", window.location.href);
+        
+        // Deteksi tombol kembali hardware
+        window.addEventListener('popstate', function(event) {
+            console.log("Tombol kembali ditekan (popstate)");
+            
+            if (!backButtonPressed) {
+                backButtonPressed = true;
+                event.preventDefault();
+                
+                // Hentikan streaming dan refresh halaman
+                stopAllStreaming();
+                setTimeout(() => {
+                    location.reload();
+                }, 100);
+                
+                // Push state lagi untuk mencegah navigasi
+                window.history.pushState({page: "arf_tv"}, "", window.location.href);
+            }
         });
 
-        // Network online/offline detection
-        window.addEventListener('online', () => {
-            console.log("Network connection restored");
-            if (currentChannel && !isSwitchingChannel && (video.paused || video.ended) && currentSourceType !== 'youtube') {
-                console.log("Attempting to restart stream after reconnection");
-                setTimeout(() => {
-                    playStream(currentChannel, currentSourceType);
-                }, 1000);
-            }
-        });
-        
-        // Page visibility change handler
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                console.log("Page hidden");
-            } else {
-                console.log("Page visible again");
-                if (currentChannel && !isSwitchingChannel && (video.paused || video.ended) && currentSourceType !== 'youtube') {
-                    console.log("Restarting video after page becomes visible");
+        // Handle tombol Escape (untuk desktop)
+        document.addEventListener('keydown', function(e) {
+            // Deteksi tombol Escape
+            if (e.key === 'Escape') {
+                // Cek jika tidak sedang berada di input field
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    // Hentikan streaming dan refresh halaman
+                    stopAllStreaming();
                     setTimeout(() => {
-                        video.play().catch(e => {
-                            console.log("Restart after visibility change failed:", e);
-                            if (!isSwitchingChannel) {
-                                playStream(currentChannel, currentSourceType);
-                            }
-                        });
-                    }, 500);
-                }
-            }
-        });
-        
-        // Keyboard shortcuts untuk kontrol cepat
-        document.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            
-            // Space untuk pause/play
-            if (e.code === 'Space') {
-                e.preventDefault();
-                if (currentSourceType === 'youtube') {
-                    return;
-                }
-                if (video.paused) {
-                    video.play().catch(console.log);
-                } else {
-                    video.pause();
+                        location.reload();
+                    }, 100);
                 }
             }
             
@@ -1779,25 +2092,43 @@
                 }
             }
         });
+
+        // Network online/offline detection
+        window.addEventListener('online', () => {
+            console.log("Network connection restored");
+            if (currentChannel && !isSwitchingChannel) {
+                const video = document.getElementById('main-video');
+                if (video && (video.paused || video.ended) && currentSourceType !== 'youtube') {
+                    console.log("Attempting to restart stream after reconnection");
+                    setTimeout(() => {
+                        playStream(currentChannel, currentSourceType);
+                    }, 1000);
+                }
+            }
+        });
         
         // Double tap untuk toggle controls pada mobile
         let lastTap = 0;
-        videoSection.addEventListener('touchend', function(e) {
-            const currentTime = new Date().getTime();
-            const tapLength = currentTime - lastTap;
-            
-            if (tapLength < 300 && tapLength > 0) {
-                e.preventDefault();
-                toggleControls();
-            }
-            
-            lastTap = currentTime;
-        });
+        if (videoSection) {
+            videoSection.addEventListener('touchend', function(e) {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                
+                if (tapLength < 300 && tapLength > 0) {
+                    e.preventDefault();
+                    toggleControls();
+                }
+                
+                lastTap = currentTime;
+            });
+        }
         
         // Mouse movement detection untuk show controls
-        videoSection.addEventListener('mousemove', function() {
-            showControls();
-        });
+        if (videoSection) {
+            videoSection.addEventListener('mousemove', function() {
+                showControls();
+            });
+        }
         
         // Cleanup intervals on page unload
         window.addEventListener('beforeunload', () => {
@@ -1810,6 +2141,8 @@
         });
         
         console.log("Aplikasi ARF TV telah dimuat dengan sukses!");
+        console.log("Streaming akan otomatis berhenti ketika aplikasi ditutup/tidak aktif");
+        console.log("Aplikasi akan refresh otomatis saat dibuka kembali");
     });
 </script>
 </body>
