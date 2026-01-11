@@ -622,6 +622,28 @@
             opacity: 0;
             pointer-events: none;
         }
+        
+        /* YouTube Container */
+        .youtube-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        /* YouTube Error Message */
+        .youtube-error {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 15;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -715,12 +737,20 @@
             <!-- Tombol fullscreen telah dihapus -->
         </div>
         
+        <!-- YouTube Error -->
+        <div class="youtube-error" id="youtubeError">
+            <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
+            <h3>YouTube Tidak Dapat Dimainkan</h3>
+            <p>Mungkin video tidak tersedia atau terjadi pembatasan.</p>
+            <p>Silakan pilih sumber streaming alternatif.</p>
+        </div>
+        
         <!-- Video element -->
         <video id="main-video" playsinline autoplay></video>
         <iframe id="youtube-frame" 
+                frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen
-                sandbox="allow-scripts allow-same-origin allow-presentation">
+                allowfullscreen>
         </iframe>
     </div>
 
@@ -747,7 +777,7 @@
 <script>
     // ========== KONFIGURASI CHANNEL ==========
     const channels = [
-              { 
+        { 
             name: "AL-BAQOROH LIRBOYO",
             desc: "Haflah Akhirussanah & Khataman Ke-XIV", 
             m3u8: "", 
@@ -895,7 +925,7 @@
 
     // Backup logo jika gambar utama gagal load
     const backupLogos = {
-        "Makkah": "MKH",
+        "AL-BAQOROH LIRBOYO": "ALB",
         "RCTI": "RCTI",
         "MNCTV": "MNC",
         "Nusantara TV": "NTV",
@@ -910,7 +940,6 @@
         "TVRI": "TVRI",
         "TV ONE": "TVOne",
         "EPL": "EPL",
-        "LA LIGA": "La Liga",
         "Serie A": "Serie A",
         "C A F": "CAF"
     };
@@ -1094,7 +1123,7 @@
         }
     }
 
-    // Fungsi untuk memutar YouTube
+    // ========== PERBAIKAN FUNGSI YOUTUBE YANG LEBIH BAIK ==========
     function playYouTube(videoId) {
         if (!videoId) {
             console.log("No YouTube video ID available");
@@ -1106,34 +1135,116 @@
         const video = document.getElementById('main-video');
         const formatBadge = document.getElementById('formatBadge');
         const loadingIndicator = document.getElementById('loadingIndicator');
+        const youtubeError = document.getElementById('youtubeError');
         
-        const params = new URLSearchParams({
-            'autoplay': '1',
-            'mute': '0',
-            'playsinline': '1',
-            'controls': '0',
-            'rel': '0',
-            'modestbranding': '1',
-            'fs': '1',
-            'disablekb': '1'
-        });
-        
-        youtubeFrame.src = `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
-        youtubeFrame.style.display = 'block';
-        video.style.display = 'none';
-        
-        if (formatBadge) {
-            formatBadge.textContent = "YouTube";
-            formatBadge.style.display = 'block';
+        // Sembunyikan pesan error
+        if (youtubeError) {
+            youtubeError.style.display = 'none';
         }
         
-        if (loadingIndicator) {
-            loadingIndicator.style.display = 'none';
+        // Hentikan video element lain
+        if (video) {
+            video.pause();
+            video.style.display = 'none';
         }
         
-        hideStreamUnavailable();
+        // Hentikan streaming lain
+        if (hls) {
+            hls.destroy();
+            hls = null;
+        }
+        if (dashPlayer) {
+            dashPlayer.destroy();
+            dashPlayer = null;
+        }
         
-        return true;
+        // Pastikan YouTube frame kosong terlebih dahulu
+        youtubeFrame.src = '';
+        youtubeFrame.style.display = 'none';
+        
+        // Tunggu sebentar untuk reset
+        setTimeout(() => {
+            // Parameter untuk embed YouTube yang benar
+            // Menggunakan parameter yang lebih sederhana untuk compatibility yang lebih baik
+            const params = new URLSearchParams({
+                'autoplay': '1',
+                'mute': '0',
+                'playsinline': '1',
+                'controls': '0',
+                'rel': '0',
+                'modestbranding': '1',
+                'disablekb': '1',
+                'fs': '0', // Nonaktifkan tombol fullscreen di YouTube player
+                'enablejsapi': '1',
+                'origin': window.location.origin,
+                'widget_referrer': window.location.origin,
+                'iv_load_policy': '3' // Nonaktifkan anotasi
+            });
+            
+            // Coba beberapa metode embed yang berbeda untuk kompatibilitas
+            const embedUrls = [
+                `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`,
+                `https://www.youtube.com/embed/${videoId}?${params.toString()}`,
+                `https://www.youtube.com/embed/live_stream?channel=${videoId}`
+            ];
+            
+            console.log("Loading YouTube embed with videoId:", videoId);
+            
+            // Coba URL pertama
+            youtubeFrame.src = embedUrls[0];
+            youtubeFrame.style.display = 'block';
+            
+            if (formatBadge) {
+                formatBadge.textContent = "YouTube";
+                formatBadge.style.display = 'block';
+            }
+            
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+            
+            hideStreamUnavailable();
+            
+            // Tambahkan event listeners untuk YouTube frame
+            youtubeFrame.onload = function() {
+                console.log("YouTube frame loaded successfully");
+                isSwitchingChannel = false;
+                
+                // Coba untuk memulai video melalui postMessage
+                try {
+                    setTimeout(() => {
+                        youtubeFrame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                    }, 1000);
+                } catch (e) {
+                    console.log("YouTube postMessage error:", e);
+                }
+                
+                // Mulai timer auto-hide setelah video mulai
+                showControls();
+            };
+            
+            youtubeFrame.onerror = function() {
+                console.log("YouTube frame loading error, trying alternative URL...");
+                
+                // Coba URL alternatif
+                setTimeout(() => {
+                    youtubeFrame.src = embedUrls[1];
+                }, 1000);
+            };
+            
+            // Set timeout untuk deteksi error
+            setTimeout(() => {
+                if (isSwitchingChannel) {
+                    console.log("YouTube timeout, showing error");
+                    if (youtubeError) {
+                        youtubeError.style.display = 'block';
+                    }
+                    isSwitchingChannel = false;
+                }
+            }, 5000);
+            
+            return true;
+        }, 100);
     }
 
     // Fungsi untuk memutar stream DASH
@@ -1536,6 +1647,7 @@
         const loadingIndicator = document.getElementById('loadingIndicator');
         const video = document.getElementById('main-video');
         const youtubeFrame = document.getElementById('youtube-frame');
+        const youtubeError = document.getElementById('youtubeError');
         
         if (streamUnavailable) {
             streamUnavailable.style.display = 'flex';
@@ -1551,6 +1663,10 @@
         
         if (youtubeFrame) {
             youtubeFrame.style.display = 'none';
+        }
+        
+        if (youtubeError) {
+            youtubeError.style.display = 'none';
         }
         
         if (hls) {
@@ -1599,6 +1715,12 @@
             video.muted = false;
         }
         
+        // Sembunyikan pesan error YouTube
+        const youtubeError = document.getElementById('youtubeError');
+        if (youtubeError) {
+            youtubeError.style.display = 'none';
+        }
+        
         if (sourceType === 'youtube') {
             if (!channel.youtube) {
                 console.log("No YouTube source available");
@@ -1607,33 +1729,20 @@
                 return;
             }
             
-            if (video) {
-                video.style.display = 'none';
-                video.pause();
-            }
-            
+            // Pastikan YouTube frame siap
             const youtubeFrame = document.getElementById('youtube-frame');
+            youtubeFrame.style.display = 'none';
             
-            if (hls) {
-                hls.destroy();
-                hls = null;
-            }
-            if (dashPlayer) {
-                dashPlayer.destroy();
-                dashPlayer = null;
-            }
-            
-            const success = playYouTube(channel.youtube);
-            if (success) {
-                isSwitchingChannel = false;
-                if (loadingIndicator) {
-                    loadingIndicator.style.display = 'none';
+            // Tunggu sedikit untuk memastikan frame sudah diatur
+            setTimeout(() => {
+                const success = playYouTube(channel.youtube);
+                if (success) {
+                    isSwitchingChannel = false;
+                } else {
+                    showStreamUnavailable();
+                    isSwitchingChannel = false;
                 }
-                hideStreamUnavailable();
-            } else {
-                showStreamUnavailable();
-                isSwitchingChannel = false;
-            }
+            }, 100);
         } else {
             const youtubeFrame = document.getElementById('youtube-frame');
             const video = document.getElementById('main-video');
@@ -1917,7 +2026,18 @@
         if (youtubeFrame) {
             youtubeFrame.addEventListener('load', () => {
                 console.log("YouTube frame loaded successfully");
+                youtubeFrame.style.display = 'block';
                 isSwitchingChannel = false;
+                
+                // Coba inject script untuk otomatis play video
+                try {
+                    setTimeout(() => {
+                        youtubeFrame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                    }, 1000);
+                } catch (e) {
+                    console.log("YouTube postMessage error:", e);
+                }
+                
                 const loadingIndicator = document.getElementById('loadingIndicator');
                 if (loadingIndicator) {
                     loadingIndicator.style.display = 'none';
@@ -1927,6 +2047,15 @@
                 
                 // Mulai timer auto-hide setelah video mulai
                 showControls();
+            });
+            
+            youtubeFrame.addEventListener('error', () => {
+                console.log("YouTube frame error");
+                const youtubeError = document.getElementById('youtubeError');
+                if (youtubeError) {
+                    youtubeError.style.display = 'block';
+                }
+                isSwitchingChannel = false;
             });
         }
         
@@ -1959,7 +2088,7 @@
                 settingsOverlay.classList.remove('active');
             });
         }
-        
+
         if (settingsOverlay && settingsMenu) {
             settingsOverlay.addEventListener('click', function() {
                 settingsMenu.classList.remove('active');
