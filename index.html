@@ -184,7 +184,187 @@
         .header-controls { 
             display: flex; 
             align-items: center; 
-            gap: 10px; 
+            gap: 15px; 
+        }
+        
+        /* Filter Button */
+        .filter-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            transition: background-color 0.2s;
+            position: relative;
+        }
+        
+        .filter-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--secondary);
+            color: var(--accent);
+        }
+        
+        .filter-btn .filter-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--accent);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Filter Menu Overlay */
+        .filter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .filter-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .filter-menu {
+            background: var(--primary);
+            width: 300px;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-overlay.active .filter-menu {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .filter-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        
+        .close-filter {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-sub);
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-filter:hover {
+            background-color: var(--secondary);
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            background: var(--secondary);
+        }
+        
+        .filter-option:hover {
+            background: rgba(0, 122, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .filter-option.active {
+            background: rgba(0, 122, 255, 0.1);
+            border-color: var(--accent);
+        }
+        
+        .filter-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+        
+        .filter-info {
+            flex: 1;
+        }
+        
+        .filter-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-main);
+        }
+        
+        .filter-desc {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-top: 3px;
+        }
+        
+        .filter-check {
+            color: var(--accent);
+            font-size: 18px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .filter-option.active .filter-check {
+            opacity: 1;
         }
         
         /* Settings Menu */
@@ -649,6 +829,48 @@
 <body>
 
 <div class="app-container">
+    <!-- Filter Menu Overlay -->
+    <div class="filter-overlay" id="filterOverlay">
+        <div class="filter-menu">
+            <div class="filter-header">
+                <div class="filter-title">Filter Channel</div>
+                <button class="close-filter" id="closeFilter">×</button>
+            </div>
+            <div class="filter-options">
+                <div class="filter-option active" data-filter="all">
+                    <div class="filter-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <div class="filter-info">
+                        <div class="filter-name">Semua Channel</div>
+                        <div class="filter-desc">Tampilkan semua channel</div>
+                    </div>
+                    <div class="filter-check">✓</div>
+                </div>
+                <div class="filter-option" data-filter="indonesia">
+                    <div class="filter-icon">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                    <div class="filter-info">
+                        <div class="filter-name">TV Indonesia</div>
+                        <div class="filter-desc">Channel TV nasional & lokal</div>
+                    </div>
+                    <div class="filter-check">✓</div>
+                </div>
+                <div class="filter-option" data-filter="event">
+                    <div class="filter-icon">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <div class="filter-info">
+                        <div class="filter-name">Event Olahraga</div>
+                        <div class="filter-desc">Live pertandingan olahraga</div>
+                    </div>
+                    <div class="filter-check">✓</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Settings Menu -->
     <div class="settings-menu" id="settingsMenu">
         <div class="settings-header">
@@ -757,7 +979,11 @@
     <div class="header-bar">
         <div class="logo">ARF<span>tv</span></div>
         <div class="header-controls">
-            <div style="font-size: 11px; color: var(--text-sub); margin-right: 10px;">TV Indonesia</div>
+            <!-- Tombol filter -->
+            <button class="filter-btn" id="filterBtn" title="Filter Channel">
+                <i class="fas fa-filter"></i>
+                <div class="filter-badge" id="filterBadge" style="display: none;">1</div>
+            </button>
             <!-- Tombol settings -->
             <button class="settings-btn" id="settingsBtn" title="Pengaturan">
                 <i class="fas fa-cog"></i>
@@ -777,14 +1003,14 @@
 <script>
     // ========== KONFIGURASI CHANNEL ==========
     const channels = [
-        
         { 
             name: "RCTI", 
             desc: "MNC Group", 
             m3u8: "https://allcutv.rctiplus.id/rcti2023.m3u8", 
             youtube: "VFaJpC6JLK4",
             color: "#ffffff",
-            logo: "https://i.ibb.co/1ft50ybJ/8-20260104-010417-0007.png"
+            logo: "https://i.ibb.co/1ft50ybJ/8-20260104-010417-0007.png",
+            category: "indonesia"
         },
         { 
             name: "MNCTV", 
@@ -792,7 +1018,8 @@
             m3u8: "https://allcutv.rctiplus.id/mnctv2023.m3u8", 
             youtube: "YZmy_kqSd3w",
             color: "#ffffff",
-            logo: "https://i.ibb.co/1tWLxmHH/5-20260104-010416-0004.png"
+            logo: "https://i.ibb.co/1tWLxmHH/5-20260104-010416-0004.png",
+            category: "indonesia"
         },
         { 
             name: "Nusantara TV", 
@@ -800,7 +1027,8 @@
             m3u8: "https://nusantaratv.siar.us/nusantaratv/live/playlist.m3u8", 
             youtube: "9G6T8ZNT-XA",
             color: "#ffffff",
-            logo: "https://i.ibb.co.com/jvDxBR9v/20260104-051301-0000.png"
+            logo: "https://i.ibb.co.com/jvDxBR9v/20260104-051301-0000.png",
+            category: "indonesia"
         },
         { 
             name: "INEWS", 
@@ -808,7 +1036,8 @@
             m3u8: "https://allcutv.rctiplus.id/inews2023.m3u8", 
             youtube: "9G6T8ZNT-XA",
             color: "#ffffff",
-            logo: "https://i.ibb.co.com/gMZCWzmg/20260104-051120-0000.png"
+            logo: "https://i.ibb.co.com/gMZCWzmg/20260104-051120-0000.png",
+            category: "indonesia"
         },
         { 
             name: "TRANS TV", 
@@ -816,7 +1045,8 @@
             m3u8: "https://d3lrdr11debmyn.cloudfront.net/ce0d357c-66ba-45cb-83f7-59846db3b948/manifest.m3u8", 
             youtube: "UoO7m7tqG_I",
             color: "#ffffff",
-            logo: "https://i.ibb.co/0ygbQtmW/1-20260104-010416-0000.png"
+            logo: "https://i.ibb.co/0ygbQtmW/1-20260104-010416-0000.png",
+            category: "indonesia"
         },
         { 
             name: "TRANS 7", 
@@ -824,7 +1054,8 @@
             m3u8: "https://d3lrdr11debmyn.cloudfront.net/05b78dd3-7d18-467e-b3ed-4f2f916e5ca7/manifest.mpd", 
             youtube: "g54wbPDKl3I",
             color: "#ffffff",
-            logo: "https://i.ibb.co/212vVZr5/12-20260104-010417-0011.png"
+            logo: "https://i.ibb.co/212vVZr5/12-20260104-010417-0011.png",
+            category: "indonesia"
         },
         { 
             name: "METRO TV", 
@@ -832,7 +1063,8 @@
             m3u8: "https://op-group1-swiftservehd-1.dens.tv/h/h12/02.m3u8", 
             youtube: "AUE5iHINUIw",
             color: "#ffffff",
-            logo: "https://i.ibb.co/FbGxbPpH/3-20260104-010416-0002.png"
+            logo: "https://i.ibb.co/FbGxbPpH/3-20260104-010416-0002.png",
+            category: "indonesia"
         },
         { 
             name: "SCTV", 
@@ -840,7 +1072,8 @@
             m3u8: "https://cdn10jtedge.indihometv.com/atm/DASH/sctv/manifest.mpd", 
             youtube: "vmBYU7iqe_w",
             color: "#ffffff",
-            logo: "https://i.ibb.co/bR5vXmV9/10-20260104-010417-0009.png"
+            logo: "https://i.ibb.co/bR5vXmV9/10-20260104-010417-0009.png",
+            category: "indonesia"
         },
         { 
             name: "INDOSIAR", 
@@ -848,7 +1081,8 @@
             m3u8: "https://cdn10jtedge.indihometv.com/atm/DASH/indosiar/indosiar-avc1_2500000=7-3277707030000000.mpd", 
             youtube: "A4vJ9qhP6P0",
             color: "#ffffff",
-            logo: "https://i.ibb.co/bj1LmQWr/9-20260104-010417-0008.png"
+            logo: "https://i.ibb.co/bj1LmQWr/9-20260104-010417-0008.png",
+            category: "indonesia"
         },
         { 
             name: "MDTV", 
@@ -856,7 +1090,8 @@
             m3u8: "https://wahyu1ptv.pages.dev/MDTV-HD.m3u8", 
             youtube: "NTohx15sGtQ",
             color: "#ffffff",
-            logo: "https://i.ibb.co.com/Kc23Th6k/20260104-050748-0000.png"
+            logo: "https://i.ibb.co.com/Kc23Th6k/20260104-050748-0000.png",
+            category: "indonesia"
         },
         { 
             name: "RTV", 
@@ -864,7 +1099,8 @@
             m3u8: "https://rtvstream.rtv.co.id:4555/hls/rtv.m3u8", 
             youtube: "NTohx15sGtQ",
             color: "#ffffff",
-            logo: "https://i.ibb.co.com/RkHTHY2J/20260104-060039-0000.png"
+            logo: "https://i.ibb.co.com/RkHTHY2J/20260104-060039-0000.png",
+            category: "indonesia"
         },        
         { 
             name: "KOMPAS TV", 
@@ -872,7 +1108,8 @@
             m3u8: "https://cdn10jtedge.indihometv.com/atm/DASH/KOMPAS_TV/manifest.mpd", 
             youtube: "DOOrIxw5xOw",
             color: "#ffffff",
-            logo: "https://i.ibb.co/S7BtZLHd/6-20260104-010416-0005.png"
+            logo: "https://i.ibb.co/S7BtZLHd/6-20260104-010416-0005.png",
+            category: "indonesia"
         },
         { 
             name: "TVRI", 
@@ -880,7 +1117,8 @@
             m3u8: "https://ott-balancer.tvri.go.id/live/eds/Nasional/hls/Nasional.m3u8", 
             youtube: "4jx5GqeU7AU",
             color: "#ffffff",
-            logo: "https://i.ibb.co/MDmj0pYN/2-20260104-010416-0001.png"
+            logo: "https://i.ibb.co/MDmj0pYN/2-20260104-010416-0001.png",
+            category: "indonesia"
         },
         { 
             name: "TV ONE", 
@@ -888,7 +1126,8 @@
             m3u8: "https://cdn10jtedge.indihometv.com/atm/DASH/tvone/manifest.mpd", 
             youtube: "yNKvkPJl-tg",
             color: "#ffffff",
-            logo: "https://i.ibb.co/4ktSrNL/7-20260104-010416-0006.png"
+            logo: "https://i.ibb.co/4ktSrNL/7-20260104-010416-0006.png",
+            category: "indonesia"
         },
         { 
             name: "Bundesliga", 
@@ -896,7 +1135,8 @@
             m3u8: "https://tfsm4gr5domt1gc41hctogezdep3pptwzc3jtf3a8r531cp1gh5djq310.100ycdn.com/live1.pro2cdnlive.com/live/channel15/playlist.m3u8", 
             youtube: "FvxkiZgyBHo",
             color: "#ffffff",
-            logo: "https://i.ibb.co/QvHBNtq8/Bundesliga-Logo-2010.png"
+            logo: "https://i.ibb.co/QvHBNtq8/Bundesliga-Logo-2010.png",
+            category: "event"
         },
         { 
             name: "Serie A", 
@@ -904,7 +1144,8 @@
             m3u8: "https://live.golivenow71.com/1f0132f062a823b2d16e22b7fc0b775d/1768786414622/gmpmb95/gmpmb95@720p.m3u8", 
             youtube: "FvxkiZgyBHo",
             color: "#ffffff",
-            logo: "https://i.ibb.co/9m97Jmcb/Polish-20260104-001033195.png"
+            logo: "https://i.ibb.co/9m97Jmcb/Polish-20260104-001033195.png",
+            category: "event"
         },
         { 
             name: "La LIGA", 
@@ -912,7 +1153,8 @@
             m3u8: "https://tfsm4gr5domt1gc41hctogezdep3pptwzc3jtf3a8r531cp1gh5djq310.100ycdn.com/live1.pro2cdnlive.com/live/channel8/playlist.m3u8", 
             youtube: "FvxkiZgyBHo",
             color: "#ffffff",
-            logo: "https://i.ibb.co/LDBtdNtJ/La-Liga-logo-2023-svg.png"
+            logo: "https://i.ibb.co/LDBtdNtJ/La-Liga-logo-2023-svg.png",
+            category: "event"
         },
         { 
             name: "EPL", 
@@ -920,7 +1162,8 @@
             m3u8: "https://tfsm4gr5domt1gc41hctogezdep3pptwzc3jtf3a8r531cp1gh5djq310.100ycdn.com/live1.pro2cdnlive.com/live/channel6/playlist.m3u8", 
             youtube: "FvxkiZgyBHo",
             color: "#ffffff",
-            logo: "https://i.ibb.co/n8grzttD/Polish-20260103-234200981.png"
+            logo: "https://i.ibb.co/n8grzttD/Polish-20260103-234200981.png",
+            category: "event"
         },            
         { 
             name: "C A F", 
@@ -928,7 +1171,8 @@
             m3u8: "https://cxyznt2-cf.didjhfyu8yg.sbs/auth=197b00493f3d7ce5cb6409206680b70469cb54282d8dbc0dd2862c6e1175fe7b1ce2d1e521844c85221fb0ef8bff66e1937ec8087d8e4c3b500ce8e8b652f6e8026d627b5d5fb251655950c24ea21de466b1bf1c349ecb42162c41311a0f7a2c7d087793b21ac4593c00abd47197ae690e2d9f5a55014bbe7df3c25b4448e40306dbcfdd18e17a728dafbce78cd8ec1d7f03f0b6854079b454c15e63597e87dbe78029119037b9dbcf7ec2642acb9bb3ba6b70505abcd4c8adea9dbf8a427e6c581f26639e3ad80adbb6cd38b0e0b4be&cid=LDfmbWiWTuxkbtC8C3fxT260103&_v=2&_r=yLhL8x&_vis=64dcd172f89000ad44bbadc81e82c3bb0abc026d0dcf9f676f13ffccc2a3e5c9&_vvs=e488c7b20c6b2f25b0ecd82c0394e8009c5b79f5dbf69607d2b872703053d817/transcode/c395057_480p.m3u8", 
             youtube: "FvxkiZgyBHo",
             color: "#ffffff",
-            logo: "https://i.ibb.co/HDZkLsmj/1767461134287.png"
+            logo: "https://i.ibb.co/HDZkLsmj/1767461134287.png",
+            category: "event"
         },
         { 
             name: "YOUTUBE",
@@ -936,7 +1180,8 @@
             m3u8: "https://manifest.googlevideo.com/api/manifest/hls_variant/expire/1768692551/ei/58ZradORFNOY4t4P1o-JwQM/ip/160.19.19.5/id/6uNdX5p9_qU.2/source/yt_live_broadcast/requiressl/yes/xpc/EgVo2aDSNQ%3D%3D/tx/51539830/txs/51539830%2C51539831/hfr/1/playlist_duration/30/manifest_duration/30/maudio/1/bui/AW-iu_rHT15xL8WycoiJwBOV5RBNSQgK4bwe2uM8cqgZcLm_F1K03CYl_prv4ktQKd4aXEhe59RkIpKS/spc/q5xjPHTwX_vCU4hcFJM4EkRADkvzrAeXVMZ45VoWIyaBChcIajvIGDg/vprv/1/go/1/ns/OVzonXWGxoSxtEMwimdvc4QR/rqh/5/pacing/0/nvgoi/1/ncsapi/1/keepalive/yes/fexp/51331020%2C51552689%2C51565115%2C51565682%2C51580968/dover/11/n/wq6iWiBxrJOIJTT7YHl/itag/0/playlist_type/DVR/sparams/expire%2Cei%2Cip%2Cid%2Csource%2Crequiressl%2Cxpc%2Ctx%2Ctxs%2Chfr%2Cplaylist_duration%2Cmanifest_duration%2Cmaudio%2Cbui%2Cspc%2Cvprv%2Cgo%2Cns%2Crqh%2Citag%2Cplaylist_type/sig/AJfQdSswRQIgPFn5w24H-N_qQQp5hUkDZzhp0TzcnDdx6FzmCmejzOcCIQCwUY896ATYjorVzf4ZBO1F769W2W5dr6KMh9ayk9zYkg%3D%3D/file/index.m3u8", 
             youtube: "p8A4qHfOaco",
             color: "#ffffff",
-            logo: "https://i.ibb.co/wrKmKcTz/20260111-091008-0000.png"
+            logo: "https://i.ibb.co/wrKmKcTz/20260111-091008-0000.png",
+            category: "indonesia"
         },
     ];
 
@@ -958,7 +1203,10 @@
         "TV ONE": "TVOne",
         "EPL": "EPL",
         "Serie A": "Serie A",
-        "C A F": "CAF"
+        "C A F": "CAF",
+        "Bundesliga": "BUN",
+        "La LIGA": "LaLiga",
+        "YOUTUBE": "YT"
     };
 
     // ========== DEKLARASI VARIABEL GLOBAL ==========
@@ -977,6 +1225,8 @@
     let controlsVisible = true;
     let backButtonPressed = false;
     let isPageClosing = false;
+    let currentFilter = 'all';
+    let filterMenuOpen = false;
 
     // ========== FUNGSI STOP STREAMING ==========
     function stopAllStreaming() {
@@ -1062,6 +1312,73 @@
                 stopAllStreaming();
             }
         });
+    }
+
+    // ========== FUNGSI FILTER CHANNEL ==========
+    function updateChannelFilter(filter) {
+        currentFilter = filter;
+        localStorage.setItem('channelFilter', filter);
+        
+        // Update active option di filter menu
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.classList.remove('active');
+            if (option.dataset.filter === filter) {
+                option.classList.add('active');
+            }
+        });
+        
+        // Update filter badge
+        updateFilterBadge();
+        
+        // Tutup filter menu
+        closeFilterMenu();
+        
+        // Render ulang channel list dengan filter
+        renderChannels(filter);
+        
+        // Simpan filter terakhir
+        localStorage.setItem('lastFilter', filter);
+        
+        console.log("Filter diubah ke:", filter);
+    }
+
+    // Update filter badge
+    function updateFilterBadge() {
+        const filterBadge = document.getElementById('filterBadge');
+        const filterBtn = document.getElementById('filterBtn');
+        
+        if (currentFilter !== 'all') {
+            let badgeText = '';
+            if (currentFilter === 'indonesia') badgeText = 'ID';
+            else if (currentFilter === 'event') badgeText = 'EV';
+            
+            filterBadge.textContent = badgeText;
+            filterBadge.style.display = 'flex';
+            filterBtn.classList.add('active');
+        } else {
+            filterBadge.style.display = 'none';
+            filterBtn.classList.remove('active');
+        }
+    }
+
+    // Buka filter menu
+    function openFilterMenu() {
+        const filterOverlay = document.getElementById('filterOverlay');
+        filterOverlay.classList.add('active');
+        filterMenuOpen = true;
+        
+        // Nonaktifkan scroll body
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Tutup filter menu
+    function closeFilterMenu() {
+        const filterOverlay = document.getElementById('filterOverlay');
+        filterOverlay.classList.remove('active');
+        filterMenuOpen = false;
+        
+        // Aktifkan kembali scroll body
+        document.body.style.overflow = '';
     }
 
     // ========== FUNGSI AUTO-HIDE CONTROLS ==========
@@ -1840,12 +2157,36 @@
         }
     }
 
-    // Render channels
-    function renderChannels() {
+    // Render channels dengan filter
+    function renderChannels(filter = 'all') {
         const listContainer = document.getElementById('list-container');
         if (!listContainer) return;
         
-        channels.forEach((ch, index) => {
+        // Kosongkan container
+        listContainer.innerHTML = '';
+        
+        // Filter channels berdasarkan kategori
+        let filteredChannels = channels;
+        if (filter !== 'all') {
+            filteredChannels = channels.filter(ch => ch.category === filter);
+        }
+        
+        // Jika tidak ada channel setelah difilter
+        if (filteredChannels.length === 0) {
+            const emptyMessage = document.createElement('div');
+            emptyMessage.style.textAlign = 'center';
+            emptyMessage.style.padding = '40px 20px';
+            emptyMessage.style.color = 'var(--text-sub)';
+            emptyMessage.innerHTML = `
+                <div style="font-size: 40px; margin-bottom: 15px;">📺</div>
+                <div style="font-weight: 600; margin-bottom: 10px;">Tidak ada channel</div>
+                <div style="font-size: 12px;">Tidak ada channel yang tersedia dalam kategori ini</div>
+            `;
+            listContainer.appendChild(emptyMessage);
+            return;
+        }
+        
+        filteredChannels.forEach((ch, index) => {
             const item = document.createElement('div');
             item.className = 'channel-item';
             
@@ -1963,6 +2304,17 @@
             });
         }
         
+        // Load filter terakhir
+        const savedFilter = localStorage.getItem('lastFilter');
+        if (savedFilter) {
+            currentFilter = savedFilter;
+        } else {
+            currentFilter = 'all';
+        }
+        
+        // Update filter badge
+        updateFilterBadge();
+        
         // Setup tema
         updateTimeAndTheme();
         setInterval(updateTimeAndTheme, 60000);
@@ -1971,23 +2323,75 @@
         autoRestartInterval = setInterval(restartVideoIfStopped, 3000);
         bufferMonitorInterval = setInterval(monitorBufferHealth, 5000);
         
-        // Render channels langsung
-        renderChannels();
+        // Setup event listeners untuk filter
+        const filterBtn = document.getElementById('filterBtn');
+        const closeFilter = document.getElementById('closeFilter');
+        const filterOverlay = document.getElementById('filterOverlay');
+        
+        if (filterBtn) {
+            filterBtn.addEventListener('click', function() {
+                openFilterMenu();
+            });
+        }
+        
+        if (closeFilter) {
+            closeFilter.addEventListener('click', function() {
+                closeFilterMenu();
+            });
+        }
+        
+        if (filterOverlay) {
+            filterOverlay.addEventListener('click', function(e) {
+                if (e.target === filterOverlay) {
+                    closeFilterMenu();
+                }
+            });
+        }
+        
+        // Setup filter options
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+                updateChannelFilter(filter);
+            });
+        });
+        
+        // Set active filter option
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.classList.remove('active');
+            if (option.dataset.filter === currentFilter) {
+                option.classList.add('active');
+            }
+        });
+        
+        // Render channels dengan filter saat ini
+        renderChannels(currentFilter);
         
         // AUTO PLAY CHANNEL PERTAMA SAAT APLIKASI DIBUKA
         if (channels.length > 0) {
-            const firstItem = document.querySelector('.channel-item');
-            if (firstItem) {
-                firstItem.classList.add('active');
-                const liveBadge = firstItem.querySelector('.status-live');
-                if (liveBadge) liveBadge.style.display = 'block';
-                
-                showChannelOverlay(channels[0]);
-                // Tunggu sebentar sebelum memulai streaming
-                setTimeout(() => {
-                    playStream(channels[0], 'm3u8');
-                }, 500);
+            // Cari channel pertama berdasarkan filter yang aktif
+            let firstChannel = channels[0];
+            if (currentFilter !== 'all') {
+                const filtered = channels.filter(ch => ch.category === currentFilter);
+                if (filtered.length > 0) {
+                    firstChannel = filtered[0];
+                }
             }
+            
+            setTimeout(() => {
+                const channelItems = document.querySelectorAll('.channel-item');
+                if (channelItems.length > 0) {
+                    channelItems[0].classList.add('active');
+                    const liveBadge = channelItems[0].querySelector('.status-live');
+                    if (liveBadge) liveBadge.style.display = 'block';
+                    
+                    showChannelOverlay(firstChannel);
+                    // Tunggu sebentar sebelum memulai streaming
+                    setTimeout(() => {
+                        playStream(firstChannel, 'm3u8');
+                    }, 500);
+                }
+            }, 100);
         }
         
         // ========== EVENT LISTENERS ==========
@@ -2092,6 +2496,11 @@
         
         if (settingsBtn && settingsMenu) {
             settingsBtn.addEventListener('click', function() {
+                // Tutup filter menu jika terbuka
+                if (filterMenuOpen) {
+                    closeFilterMenu();
+                }
+                
                 settingsMenu.classList.add('active');
                 if (settingsOverlay) {
                     settingsOverlay.classList.add('active');
@@ -2137,9 +2546,15 @@
             tryOtherChannelBtn.addEventListener('click', function() {
                 hideStreamUnavailable();
                 if (currentChannel) {
-                    const currentIndex = channels.findIndex(ch => ch === currentChannel);
-                    const nextIndex = (currentIndex + 1) % channels.length;
-                    const nextChannel = channels[nextIndex];
+                    // Dapatkan channel yang sesuai dengan filter aktif
+                    let filteredChannels = channels;
+                    if (currentFilter !== 'all') {
+                        filteredChannels = channels.filter(ch => ch.category === currentFilter);
+                    }
+                    
+                    const currentIndex = filteredChannels.findIndex(ch => ch === currentChannel);
+                    const nextIndex = (currentIndex + 1) % filteredChannels.length;
+                    const nextChannel = filteredChannels[nextIndex];
                     
                     document.querySelectorAll('.channel-item').forEach(el => {
                         el.classList.remove('active');
@@ -2198,6 +2613,13 @@
                 // Cek jika tidak sedang berada di input field
                 if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
                     e.preventDefault();
+                    
+                    // Tutup filter menu jika terbuka
+                    if (filterMenuOpen) {
+                        closeFilterMenu();
+                        return;
+                    }
+                    
                     // Hentikan streaming dan refresh halaman
                     stopAllStreaming();
                     setTimeout(() => {
@@ -2209,16 +2631,23 @@
             // Panah kiri/kanan untuk channel navigation
             if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
                 e.preventDefault();
-                const currentIndex = channels.findIndex(ch => ch === currentChannel);
-                if (currentIndex !== -1) {
+                // Dapatkan channel yang sesuai dengan filter aktif
+                let filteredChannels = channels;
+                if (currentFilter !== 'all') {
+                    filteredChannels = channels.filter(ch => ch.category === currentFilter);
+                }
+                
+                const currentIndex = filteredChannels.findIndex(ch => ch === currentChannel);
+                if (currentIndex !== -1 && filteredChannels.length > 0) {
                     let newIndex;
                     if (e.code === 'ArrowRight') {
-                        newIndex = (currentIndex + 1) % channels.length;
+                        newIndex = (currentIndex + 1) % filteredChannels.length;
                     } else {
-                        newIndex = (currentIndex - 1 + channels.length) % channels.length;
+                        newIndex = (currentIndex - 1 + filteredChannels.length) % filteredChannels.length;
                     }
                     
-                    const newChannel = channels[newIndex];
+                    const newChannel = filteredChannels[newIndex];
+                    const originalIndex = channels.findIndex(ch => ch === newChannel);
                     const channelItems = document.querySelectorAll('.channel-item');
                     
                     if (channelItems[newIndex]) {
@@ -2235,6 +2664,12 @@
                         playStream(newChannel, currentSourceType);
                     }
                 }
+            }
+            
+            // Tombol F untuk membuka filter
+            if (e.key === 'f' || e.key === 'F') {
+                e.preventDefault();
+                openFilterMenu();
             }
         });
 
@@ -2286,6 +2721,7 @@
         });
         
         console.log("Aplikasi ARF TV telah dimuat dengan sukses!");
+        console.log("Filter aktif: " + currentFilter);
         console.log("Streaming akan otomatis berhenti ketika aplikasi ditutup/tidak aktif");
         console.log("Aplikasi akan refresh otomatis saat dibuka kembali");
     });
